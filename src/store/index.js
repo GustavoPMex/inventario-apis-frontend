@@ -11,7 +11,7 @@ export default createStore({
   mutations: {
     nuevoArticulo(state, payload){
       state.articulos.push(payload)
-      console.log(state.articulos)
+      localStorage.setItem('articulos', JSON.stringify(state.articulos))
     }
   },
   actions: {

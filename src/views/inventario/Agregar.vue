@@ -41,6 +41,7 @@
             type="number" 
             class="form-control" 
             placeholder="Ingresa precio"
+            min="0"
             v-model="precio"
         >
     </div>
@@ -51,18 +52,25 @@
             type="number" 
             class="form-control" 
             placeholder="Ingresa cantidad"
+            min="0"
             v-model="cantidad"
         >
     </div>
 
-    <button type="submit" class="btn btn-success btn-form">Crear</button>
+    <button 
+        type="submit" 
+        class="btn btn-success btn-form"
+        :disabled='btnIsDisabled'
+    >
+        Crear
+    </button>
 </form>
 </template>
 
 
 <script>
 import {useStore} from 'vuex'
-import { ref } from '@vue/reactivity'
+import { computed, ref } from '@vue/reactivity'
 import  {useRouter} from 'vue-router'
 
 export default {
@@ -77,6 +85,14 @@ export default {
         const precio = ref(0)
         const cantidad = ref(0)
 
+        const btnIsDisabled = computed(() => {
+            if (nombre.value && categorias.value.length > 0 &&
+                proveedor.value && precio.value > 0 && cantidad.value > 0){
+                    return false
+                }
+            return true
+        })
+
         const nuevoArticulo = () => {
             store.dispatch('formNuevoArticulo',{
                 nombre: nombre.value,
@@ -90,9 +106,11 @@ export default {
             })
         }
 
+
         return {
             categorias, nombre, proveedor,
-            precio, cantidad, nuevoArticulo
+            precio, cantidad, btnIsDisabled, 
+            nuevoArticulo
         }
     }
 }

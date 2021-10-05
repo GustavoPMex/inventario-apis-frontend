@@ -1,5 +1,5 @@
 <template>
-<div v-if="articulos.length > 0" class="row w-100 mb-5 mx-auto table-responsive">
+<div v-if="articulos" class="row w-100 mb-5 mx-auto table-responsive">
     <table class="table table-striped table-dark">
         <thead>
             <tr>
@@ -33,7 +33,7 @@
     </table>
 </div>
 
-<p v-else class="p-vacia">Sin categoria</p>
+<p v-else class="p-vacia">Sin articulos</p>
 
 </template>
 
@@ -47,7 +47,9 @@ export default {
         const store = useStore()
         
         const articulos = computed(() => {
-            return store.getters.getArticulos
+            const listaArticulos = JSON.parse(localStorage.getItem('articulos'))
+
+            return listaArticulos ? listaArticulos : false
         })
 
         return {articulos}
