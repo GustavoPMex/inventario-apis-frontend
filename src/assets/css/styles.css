@@ -1688,8 +1688,9 @@ pre code {
 .table th,
 .table td {
   padding: 0.75rem;
-  vertical-align: top;
+  vertical-align: center;
   border-top: 1px solid #dee2e6;
+  text-transform: capitalize;
 }
 .table thead th {
   vertical-align: bottom;

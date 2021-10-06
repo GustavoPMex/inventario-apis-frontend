@@ -9,12 +9,24 @@ export default createStore({
     userAuth: true
   },
   mutations: {
+    cargarArticulos(state, payload){
+      state.articulos = payload
+    },
     nuevoArticulo(state, payload){
       state.articulos.push(payload)
       localStorage.setItem('articulos', JSON.stringify(state.articulos))
     }
   },
   actions: {
+    loadInventario({commit}){
+      if (localStorage.getItem('articulos')){
+        const articulos = JSON.parse(localStorage.getItem('articulos'))
+        commit('cargarArticulos', articulos)
+      } else {
+        localStorage.setItem('articulos', JSON.stringify([]))
+      }
+    },
+    
     formNuevoArticulo({commit}, articulo){
       commit('nuevoArticulo', articulo)
     }

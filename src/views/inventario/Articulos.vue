@@ -18,13 +18,16 @@
             <tr>
             <td scope="row">{{articulo.nombre}}</td>
             <td>
-                Impresora
+                <p v-for="(categoria, index) in articulo.categorias"
+                :key="index">
+                    {{categoria}}
+                </p>
             </td>
             <td>{{articulo.proveedor}}</td>
             <td>${{articulo.precio}}</td>
             <td>{{articulo.cantidad}}</td>
             <td>
-                <a  href="#"><i class="fas fa-pen-square icon-table-up"></i></a>
+                <a  href="#" ><i class="fas fa-pen-square icon-table-up"></i></a>
                 <a  href="#"><i class="fas fa-trash-alt icon-table-del"></i></a>
                 <a  href="#"><i class="fas fa-shopping-cart icon-table-cart"></i></a>
             </td>
@@ -38,7 +41,7 @@
 </template>
 
 <script>
-import  {computed} from 'vue'
+import  {computed, onMounted} from 'vue'
 import { useStore } from 'vuex'
 
 export default {
@@ -48,8 +51,16 @@ export default {
         
         const articulos = computed(() => {
             const listaArticulos = JSON.parse(localStorage.getItem('articulos'))
+            try {                
+                return listaArticulos.length ? listaArticulos : false
+            } catch (error) {
+                console.log('Local Storage error')
+            }
+            
+        })
 
-            return listaArticulos ? listaArticulos : false
+        onMounted(async() => {
+            await store.dispatch('loadInventario')
         })
 
         return {articulos}
