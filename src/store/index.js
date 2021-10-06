@@ -4,6 +4,13 @@ export default createStore({
   state: {
     // Inventario
     articulos: [],
+    articulo: {
+      nombre: '',
+      categorias: [],
+      proveedor: '',
+      precio: 0,
+      cantidad: 0
+    },
     modificaciones: [],
     ventas: [],
     userAuth: true
@@ -36,6 +43,9 @@ export default createStore({
   getters:{
     getArticulos(state){
       return state.articulos
+    },
+    getArticulo(state){
+      return state.articulo
     }
   }
 })
