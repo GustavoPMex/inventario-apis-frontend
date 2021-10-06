@@ -27,7 +27,16 @@
             <td>${{articulo.precio}}</td>
             <td>{{articulo.cantidad}}</td>
             <td>
-                <a  href="#" ><i class="fas fa-pen-square icon-table-up"></i></a>
+                <a  
+                    data-toggle="modal" 
+                    data-target="#editarArticulo" 
+                    data-whatever="@getbootstrap"
+                    data-backdrop="static" data-keyboard="false"
+                    @click="actualizar(articulo)"
+                >
+                    <i class="fas fa-pen-square icon-table-up"></i>
+                </a>
+                <ModalInventario />
                 <a  href="#"><i class="fas fa-trash-alt icon-table-del"></i></a>
                 <a  href="#"><i class="fas fa-shopping-cart icon-table-cart"></i></a>
             </td>
@@ -41,10 +50,14 @@
 </template>
 
 <script>
+import ModalInventario from '../../components/inventario/ModalInventario.vue'
 import  {computed, onMounted} from 'vue'
 import { useStore } from 'vuex'
 
 export default {
+    components: {
+        ModalInventario
+    },
     setup(){
 
         const store = useStore()
@@ -59,11 +72,15 @@ export default {
             
         })
 
+        const actualizar = (articulo) => {
+            store.dispatch('configArticulo', articulo)
+        }
+
         onMounted(async() => {
             await store.dispatch('loadInventario')
         })
 
-        return {articulos}
+        return {articulos, actualizar}
     },
 
 }

@@ -1,6 +1,5 @@
 <template>
 <div class="form-group">
-    <p>{{articulo}}</p>
     <label class="label-form">Nombre</label>
     <input 
         class='form-control' 

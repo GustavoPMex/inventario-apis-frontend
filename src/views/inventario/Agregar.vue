@@ -1,6 +1,6 @@
 <template>
     <form @submit.prevent="nuevoArticulo">
-        <FormInventario :articulo='articulo'/>
+        <InputsInventario :articulo='articulo'/>
         <button 
             type="submit" 
             class="btn btn-success btn-form"
@@ -13,14 +13,14 @@
 
 
 <script>
-import FormInventario from '../../components/inventario/InputsInventario.vue'
+import InputsInventario from '../../components/inventario/InputsInventario.vue'
 import {useStore} from 'vuex'
 import { computed, ref } from '@vue/reactivity'
 import  {useRouter} from 'vue-router'
 
 export default {
     components: {
-        FormInventario
+        InputsInventario
     },
     setup() {
 
@@ -43,6 +43,7 @@ export default {
 
         const nuevoArticulo = () => {
             store.dispatch('formNuevoArticulo', articulo.value)
+            store.dispatch('limpiarArticulo')
             .then(() => {
                 router.push({name: 'InventarioArticulos'})
             })
