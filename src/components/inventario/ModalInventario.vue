@@ -21,7 +21,7 @@
             <div class="modal-footer text-center">
                 <button 
                     type="button" 
-                    class="btn btn-secondary" 
+                    class="btn btn-secondary mx-auto" 
                     data-dismiss="modal"
                     @click="cancelar"
                 >

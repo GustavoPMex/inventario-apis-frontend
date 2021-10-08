@@ -16,14 +16,14 @@
             :key="index"
         >
             <tr>
-            <td scope="row">{{articulo.nombre}}</td>
+            <td class="table-wordbreak">{{articulo.nombre}}</td>
             <td>
                 <p v-for="(categoria, index) in articulo.categorias"
                 :key="index">
                     {{categoria}}
                 </p>
             </td>
-            <td>{{articulo.proveedor}}</td>
+            <td class="table-wordbreak">{{articulo.proveedor}}</td> 
             <td>${{articulo.precio}}</td>
             <td>{{articulo.cantidad}}</td>
             <td>

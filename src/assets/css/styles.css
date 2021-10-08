@@ -58,6 +58,10 @@ article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
   display: block;
 }
 
+footer{
+  height: 50px;
+}
+
 body {
   margin: 0;
   font-family: "Muli", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
@@ -1687,11 +1691,16 @@ pre code {
 }
 .table th,
 .table td {
-  padding: 0.75rem;
+  padding: 0.5rem;
   vertical-align: center;
   border-top: 1px solid #dee2e6;
   text-transform: capitalize;
 }
+
+.table-wordbreak{
+  word-break: break-all;
+}
+
 .table thead th {
   vertical-align: bottom;
   border-bottom: 2px solid #dee2e6;
@@ -10120,20 +10129,25 @@ p.lead {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  height: 5rem;
-  width: 5rem;
+  height: 4rem;
+  width: 4rem;
   background-color: #bd5d38;
   color: #fff;
-  border-radius: 100%;
-  font-size: 1.5rem;
+  border-radius: 10%;
+  font-size: 3rem;
   margin-right: 1.5rem;
   transition: .3s;
 }
 .social-icons .social-icon:last-child {
   margin-right: 0;
 }
-.social-icons .social-icon:hover {
+
+.social-icons .facebook:hover {
   background-color: #3b5998;
+}
+
+.social-icons .twitter:hover {
+  background-color: #00acee;
 }
 
 .dev-icons {
