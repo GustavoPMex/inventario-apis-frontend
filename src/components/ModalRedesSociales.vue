@@ -59,6 +59,8 @@
 <script>
 import { computed } from '@vue/reactivity'
 import { useStore } from 'vuex'
+import Swal from 'sweetalert2'
+
 export default {
     setup(){
 
@@ -69,7 +71,38 @@ export default {
         })
 
         const actualizarRedes = () => {
-            store.dispatch('formRedesSociales', redes.value)
+            
+            function validarRed(red) {
+                const keyRed = Object.keys(red)[0]
+
+                if(keyRed === 'keyFace'){
+                    return  red.keyFace.includes('https://www.facebook.com/') ||
+                            red.keyFace === '' ? true : false
+                            
+                } else if (keyRed === 'keyTwi'){
+                    return  red.keyTwi.includes('https://www.facebook.com/') ||
+                            red.keyTwi === '' ? true : false
+
+                } else if (keyRed === 'keyInst'){
+                    return  red.keyInst.includes('https://www.facebook.com/') ||
+                            red.keyInst === '' ? true : false
+                }
+            }
+            
+            const newRedes = redes.value
+            const facebook = validarRed({keyFace: newRedes.facebook})
+            const twitter = validarRed({keyTwi: newRedes.twitter})
+            const instagram = validarRed({keyInst: newRedes.instagram})
+
+            if(facebook && twitter && instagram){
+                store.dispatch('formRedesSociales', redes.value)
+                return
+            } 
+            Swal.fire(
+                'Error',
+                'Introduce un link válido',
+                'error'
+            )
         }
 
         return {redes, actualizarRedes}

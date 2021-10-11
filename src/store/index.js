@@ -92,7 +92,11 @@ export default createStore({
         const redes = JSON.parse(localStorage.getItem('redes'))
         commit('cargarRedes', redes)
       } else {
-        localStorage.setItem('redes', JSON.stringify({}))
+        localStorage.setItem('redes', JSON.stringify({
+                                                    facebook: '',
+                                                    twitter: '', 
+                                                    instagram: ''
+        }))
       }
     },
     configReSoActuales({commit}){
