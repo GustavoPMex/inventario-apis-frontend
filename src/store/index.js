@@ -3,19 +3,22 @@ import router from '../router'
 
 export default createStore({
   state: {
-    // Home
+    // ---------- Home -----------
     redesSociales: {
       facebook: '',
       twitter: '', 
       instagram: ''
     },
+    // Sirve para almacenar las redes sociales actuales
+    // de manera temporal
     redesSocialesStorage: {
       facebook: '',
       twitter: '', 
       instagram: ''
     },
+    // Autorización del usuario(Token)
     userAuth: true,
-    // Inventario
+    // ---------- INVENTARIO -----------
     articulos: [],
     articulo: {
       nombre: '',
@@ -28,6 +31,22 @@ export default createStore({
     ventas: [],
   },
   mutations: {
+    // ---------- Redes sociales -----------
+    // Establecemos las redes sociales que actualmente tengamos almacenadas
+    // En el local storage
+    cargarRedes(state, payload){
+      state.redesSociales = payload
+    },
+    // Establecemos temporalmente las redes sociales que tenemos almacenadas
+    // actualmente para visualizarlas en el formulario
+    setReSoActuales(state, payload){
+      state.redesSocialesStorage = payload
+    },
+    // Establecemos las nuevas redes sociales que nos provee el formulario
+    setRedes(state, payload){
+      state.redesSociales = payload
+    },
+    // ---------- Articulos -----------
     cargarArticulos(state, payload){
       state.articulos = payload
     },
@@ -51,18 +70,6 @@ export default createStore({
           cantidad: 0
         }
     },
-    // Redes sociales --->
-    cargarRedes(state, payload){
-      state.redesSociales = payload
-    },
-    setReSoActuales(state){
-      const redes = JSON.parse(localStorage.getItem('redes'))
-      state.redesSocialesStorage = redes
-    },
-    setRedes(state, payload){
-      state.redesSociales = payload
-      localStorage.setItem('redes', JSON.stringify(state.redesSociales))
-    }
   },
   actions: {
     loadInventario({commit}){
@@ -86,43 +93,59 @@ export default createStore({
       commit('reemplazarArticulo', articulo)
       router.go()
     },
-    // Redes sociales --->
+    // ---------- Redes sociales -----------
+    // Carga las redes sociales que tenamos almacenadas actualmente
+    // En caso de que no tengamos, se crea el objeto vacío
     loadRedes({commit}){
       if(localStorage.getItem('redes')){
         const redes = JSON.parse(localStorage.getItem('redes'))
         commit('cargarRedes', redes)
       } else {
         localStorage.setItem('redes', JSON.stringify({
-                                                    facebook: '',
-                                                    twitter: '', 
-                                                    instagram: ''
+          facebook: '',
+          twitter: '', 
+          instagram: ''
         }))
       }
     },
+    // Cuando se llama a ésta funcion, establecemos las redes sociales actuales.
+    // Que son almacenadas temporalmente para que podamos utilizarlas 
+    // en el formulario
     configReSoActuales({commit}){
-      commit('setReSoActuales')
+      const redes = JSON.parse(localStorage.getItem('redes'))
+      commit('setReSoActuales', redes)
     },
-    formRedesSociales({commit}, redes){
+    // Procesamos el formulario para establecer las nuevas redes sociales
+    // y almacenarlas en el local storage
+    formRedesSociales({commit, state}, redes){
       commit('setRedes', redes)
+      localStorage.setItem('redes', JSON.stringify(state.redesSociales))
+      // Limpiamos "las redes sociales actuales" que se usan para
+      // visualizarlas en el formulario
+      commit('setReSoActuales', {
+        facebook: '',
+        twitter: '', 
+        instagram: ''
+      })
     }
 
   },
   modules: {
   },
   getters:{
-    // Home - redes
+    // ---------- Redes sociales -----------
     getRedes(state){
       return state.redesSociales
     },
     getRedesActuales(state){
       return state.redesSocialesStorage
     },
-    // Home - Autorizacion
+    // Autorizacion
     getAuth(state){
       return state.userAuth
     },
 
-    // Articulos
+    // ---------- Articulos -----------
     getArticulos(state){
       return state.articulos
     },

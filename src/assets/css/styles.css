@@ -10415,6 +10415,47 @@ a.active.router-link-exact-active.list-submenu{
 }
 
 
+
+.modalfade {
+  animation: fadeIn .2s;
+  -moz-animation: fadeIn .1s; /* Firefox */
+  -webkit-animation: fadeIn .2s; /* Safari and Chrome */
+  -o-animation: fadeIn .1s; /* Opera */
+}
+@keyframes fadeIn {
+  from {
+      opacity:0;
+  }
+  to {
+      opacity:1;
+  }
+}
+@-moz-keyframes fadeIn { /* Firefox */
+  from {
+      opacity:0;
+  }
+  to {
+      opacity:1;
+  }
+}
+@-webkit-keyframes fadeIn { /* Safari and Chrome */
+  from {
+      opacity:0;
+  }
+  to {
+      opacity:1;
+  }
+}
+@-o-keyframes fadeIn { /* Opera */
+  from {
+      opacity:0;
+  }
+  to {
+      opacity: 1;
+  }
+}
+
+
 .modal{
   color: white;
   font-size: 1.2em;
@@ -10490,6 +10531,25 @@ input[type="checkbox"]{
   text-shadow: rgba(0, 0, 0, .9)0px 2px 3px;
 }
 
+
 .desactivar-puntero{
   pointer-events: none;
+}
+
+
+/* Animacion errores del modal */
+.bounce-enter-active {
+  animation: bounce-in 0.4s;
+}
+
+@keyframes bounce-in {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1);
+  }
 }

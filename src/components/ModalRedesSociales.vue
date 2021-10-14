@@ -1,5 +1,5 @@
 <template>
-    <div class="modal fade" id="modalRedes" tabindex="-1" aria-labelledby="modalRedesLabel" aria-hidden="true">
+    <div class="modal  modalfade" id="modalRedes" tabindex="-1" aria-labelledby="modalRedesLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
             <div class="modal-header">
@@ -34,8 +34,20 @@
                             v-model="redes.instagram"
                         >
                     </div>
+
+                    <transition name="bounce">
+                        <div v-if="errores.length" class="alert alert-danger" role="alert">
+                            <p
+                                v-for="(error, index) in errores"
+                                :key="index"
+                            >- {{error}}</p>
+
+                        </div>
+                    </transition>
+
                     <button
                         class="btn btn-success"
+                        @click="limpiarErrores"
                     >
                         Guardar
                     </button>
@@ -47,6 +59,7 @@
                     type="button" 
                     class="btn btn-secondary mx-auto"
                     data-dismiss="modal"
+                    @click="limpiarErrores"
                 >
                     Cerrar
                 </button>
@@ -57,55 +70,63 @@
 </template>
 
 <script>
-import { computed } from '@vue/reactivity'
+import { computed, ref } from '@vue/reactivity'
 import { useStore } from 'vuex'
-import Swal from 'sweetalert2'
 
 export default {
     setup(){
 
         const store = useStore()
+        
+        // Los errores que usaremos en el formulario
+        let errores = ref([])
 
+        // Obtenemos las redes sociales que tenemos actualmente almacenadas
         const redes = computed(() => {
             return store.getters.getRedesActuales
         })
 
-        const actualizarRedes = () => {
-            
-            function validarRed(red) {
-                const keyRed = Object.keys(red)[0]
-
-                if(keyRed === 'keyFace'){
-                    return  red.keyFace.includes('https://www.facebook.com/') ||
-                            red.keyFace === '' ? true : false
-                            
-                } else if (keyRed === 'keyTwi'){
-                    return  red.keyTwi.includes('https://www.facebook.com/') ||
-                            red.keyTwi === '' ? true : false
-
-                } else if (keyRed === 'keyInst'){
-                    return  red.keyInst.includes('https://www.facebook.com/') ||
-                            red.keyInst === '' ? true : false
-                }
-            }
-            
-            const newRedes = redes.value
-            const facebook = validarRed({keyFace: newRedes.facebook})
-            const twitter = validarRed({keyTwi: newRedes.twitter})
-            const instagram = validarRed({keyInst: newRedes.instagram})
-
-            if(facebook && twitter && instagram){
-                store.dispatch('formRedesSociales', redes.value)
-                return
-            } 
-            Swal.fire(
-                'Error',
-                'Introduce un link válido',
-                'error'
-            )
+        // Limpiar los errores para que no se almacenen
+        const limpiarErrores = () =>{
+            errores.value = []
         }
 
-        return {redes, actualizarRedes}
+        // El procesamiento del formulario de redes sociales
+        const actualizarRedes = () => {
+            
+            // Función para comprobar que la red social sea valida.
+            // En éste caso comprobamos que tenga la url del dominio perteneciente
+            // a su red social. Igual se permiten campos vacíos
+            function validarUrl(red) {
+                const nombreRed = red.key
+                const urlRed = red.value
+                return  urlRed.includes(`https://www.${nombreRed}.com/`) ||
+                        urlRed === '' ? true : false 
+            }
+            
+            // Guardamos en una constante las redes sociales que se pasaron a través formulario 
+            const redesSociales = redes.value
+            // Realizamos la validacion de cada red social
+            Object.entries(redesSociales).forEach(([nombre, url]) => {
+                // Creamos un objeto temporal que almacenará el nombre y la url
+                const redActual = {
+                    key: nombre,
+                    value: url
+                }
+                // Si la red social retorna false, entonces lo añadimos a los errores
+                if (!validarUrl(redActual)){
+                    errores.value.push(`Link de ${redActual.key} inválido`)
+                }
+            })
+
+            if (!errores.value.length){
+                store.dispatch('formRedesSociales', redes.value)
+                $('#modalRedes').modal('toggle')
+            }
+
+        }
+
+        return {errores, redes, limpiarErrores, actualizarRedes}
     }
 }
 </script>

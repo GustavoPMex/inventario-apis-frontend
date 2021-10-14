@@ -90,20 +90,27 @@ export default {
 
     const store = useStore()
 
+    // Comprobamos que el usuario esté autorizado
     const authorization = computed(() =>{
       return store.getters.getAuth
     })
 
+    // Las redes sociales que tenemos actualmente almacenadas
+    // en el state de vuex
     const redes = computed(() => {
       return store.getters.getRedes
     })
 
-    const cargarRedes = () =>{
-      store.dispatch('loadRedes')
-    }
-
+    // Establecemos las redes sociales que tenemos guardadas actualmente
+    // para que podamos ver los datos el form de redes sociales
     const redesActuales = ()  => {
       store.dispatch('configReSoActuales')
+    }
+
+    // Se cargan las redes sociales que tengamos almacenada
+    // de manera inicial 
+    const cargarRedes = () =>{
+      store.dispatch('loadRedes')
     }
 
     onMounted(async() => {
