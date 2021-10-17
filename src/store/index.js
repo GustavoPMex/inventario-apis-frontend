@@ -20,6 +20,8 @@ export default createStore({
     userAuth: true,
     // ---------- INVENTARIO -----------
     articulos: [],
+    // El objeto articulo almacenará de manera temporal el objeto para
+    // visualizarlo en el formulario
     articulo: {
       nombre: '',
       categorias: [],
@@ -47,18 +49,22 @@ export default createStore({
       state.redesSociales = payload
     },
     // ---------- Articulos -----------
+    // Carga los articulos almacenados en memoria
     cargarArticulos(state, payload){
       state.articulos = payload
     },
+    // Añadimos un nuevo articulo y lo establecemos
     nuevoArticulo(state, payload){
       state.articulos.push(payload)
       localStorage.setItem('articulos', JSON.stringify(state.articulos))
     },
+    // Actualizamos el articulo 
     actualizarArticulo(state, payload){
       state.articulos = state.articulos.map(item => item.nombre === payload.nombre ? payload : item)
       localStorage.setItem('articulos', JSON.stringify(state.articulos))
     },
-    eliminarArticulo(state){
+    // Elimina el articulo almacenado que se visualiza en el formulario de inventario
+    eliminarArticuloAlmacenado(state){
       state.articulo = {
         nombre: '',
         categorias: [],
@@ -72,6 +78,7 @@ export default createStore({
     },
   },
   actions: {
+    // Carga todos los articulos que tengamos almacenados actualmente
     loadInventario({commit}){
       if (localStorage.getItem('articulos')){
         const articulos = JSON.parse(localStorage.getItem('articulos'))
@@ -80,18 +87,21 @@ export default createStore({
         localStorage.setItem('articulos', JSON.stringify([]))
       }
     },
+    // Añadimos un nuevo articulo
     formNuevoArticulo({commit}, articulo){
       commit('nuevoArticulo', articulo)
     },
+    // Configuramos el articulo para poder visualizarlo en el formulario
     configArticulo({commit}, articulo){
       commit('setArticulo', articulo)
     },
+    // Eliminamos lo que se encuentre en state.articulo
     limpiarArticulo({commit}){
-      commit('eliminarArticulo')
+      commit('eliminarArticuloAlmacenado')
     },
+    // Editamos un articulo
     formModificarArticulo({commit}, articulo){
       commit('actualizarArticulo', articulo)
-      router.go()
     },
     // ---------- Redes sociales -----------
     // Carga las redes sociales que tenamos almacenadas actualmente

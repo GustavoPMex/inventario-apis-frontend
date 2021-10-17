@@ -32,7 +32,7 @@
                     data-target="#editarArticulo" 
                     data-whatever="@getbootstrap"
                     data-backdrop="static" data-keyboard="false"
-                    @click="actualizar(articulo)"
+                    @click="configurarArticulo(articulo)"
                 >
                     <i class="fas fa-pen-square icon-table-up"></i>
                 </a>
@@ -62,25 +62,25 @@ export default {
 
         const store = useStore()
         
+        // Obtenemos los articulos almacenados actualmente en el state de vuex
         const articulos = computed(() => {
-            const listaArticulos = JSON.parse(localStorage.getItem('articulos'))
-            try {                
-                return listaArticulos.length ? listaArticulos : false
-            } catch (error) {
-                console.log('Local Storage error')
-            }
+            return store.getters.getArticulos
             
         })
 
-        const actualizar = (articulo) => {
-            store.dispatch('configArticulo', articulo)
+        // Configuramos el articulo actual para usarlo en el modal
+        const configurarArticulo = (articulo) => {
+            // Copia del objeto para evitar que se modifique en la lista
+            const articuloEstablecido = JSON.parse(JSON.stringify(articulo))
+            store.dispatch('configArticulo', articuloEstablecido)
         }
 
+        // Cargamos el inventario que tenemos almacenado
         onMounted(async() => {
             await store.dispatch('loadInventario')
         })
 
-        return {articulos, actualizar}
+        return {articulos, configurarArticulo}
     },
 
 }

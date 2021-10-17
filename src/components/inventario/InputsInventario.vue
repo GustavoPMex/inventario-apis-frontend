@@ -16,7 +16,7 @@
         v-model="articulo.categorias"    
     >
         <option value="laptop">Laptop</option>
-        <option value="impresora">Impresora</option>
+        <option value="almacenamiento">Almacenamiento</option>
     </select>
 </div>
 

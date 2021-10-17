@@ -87,7 +87,6 @@ export default {
     HomeCard, ModalRedesSociales
   },
   setup() {
-
     const store = useStore()
 
     // Comprobamos que el usuario esté autorizado
@@ -109,16 +108,12 @@ export default {
 
     // Se cargan las redes sociales que tengamos almacenada
     // de manera inicial 
-    const cargarRedes = () =>{
-      store.dispatch('loadRedes')
-    }
-
     onMounted(async() => {
-      cargarRedes()
+      await store.dispatch('loadRedes')
     })
     
 
-    return {authorization, redes, cargarRedes, redesActuales}
+    return {authorization, redes, redesActuales}
 
   }
   

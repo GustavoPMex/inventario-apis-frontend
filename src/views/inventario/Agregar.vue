@@ -27,32 +27,45 @@ export default {
         const store = useStore()
         const router = useRouter()
 
+        // Obtenemos get articulo para pasarlo a los inputs.
+        // En éste caso estarán vacias las propiedades del objeto
         const articulo = computed(() =>{
             return store.getters.getArticulo
         })
 
+        // Si todos los campos están llenos, entonces habilitamos el botón
         const btnIsDisabled = computed(() => {
-            const articuloValid = articulo.value
-            if(articuloValid.nombre && articuloValid.categorias &&
-                articuloValid.proveedor && articuloValid.precio &&
-                articuloValid.cantidad){
+            const articuloActual = articulo.value
+            if( articuloActual.nombre && articuloActual.categorias.length &&
+                articuloActual.proveedor && articuloActual.precio &&
+                articuloActual.cantidad){
                 return false
             }
             return true
         })
 
+        // Hacemos un llamado para limpiar los inputs
+        const limpiarInputs = () => {
+            store.dispatch('limpiarArticulo')
+        }
+        // Hacemos un llamado a la acción para añadir un nuevo articulo.
         const nuevoArticulo = () => {
             store.dispatch('formNuevoArticulo', articulo.value)
-            store.dispatch('limpiarArticulo')
             .then(() => {
                 router.push({name: 'InventarioArticulos'})
+                limpiarInputs()
             })
         }
 
-
         return {
             articulo, btnIsDisabled, 
-            nuevoArticulo
+            limpiarInputs, nuevoArticulo
+        }
+    },
+    watch: {
+        // Si cambiamos de vista, se limpiaran los inputs
+        $route (to, from){
+            this.limpiarInputs()
         }
     }
 }

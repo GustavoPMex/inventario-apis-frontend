@@ -23,7 +23,7 @@
                     type="button" 
                     class="btn btn-secondary mx-auto" 
                     data-dismiss="modal"
-                    @click="cancelar"
+                    @click="limpiarInputs"
                 >
                     Cerrar
                 </button>
@@ -45,38 +45,42 @@ export default {
         InputsInventario
     },
     setup() {
-
         const store = useStore()
-        const router = useRouter()
 
+        // Obtenemos lo que actualmente está almacenado en el state
         const articulo = computed(() =>{
             return store.getters.getArticulo
         })
 
+        // Si los campos son validos, se activa el botón
         const btnIsDisabled = computed(() => {
             const articuloValid = articulo.value
-            if(articuloValid.nombre && articuloValid.categorias &&
+            if(articuloValid.nombre && articuloValid.categorias.length &&
                 articuloValid.proveedor && articuloValid.precio &&
                 articuloValid.cantidad){
                 return false
             }
             return true
         })
-
-        const editarArticulo = () => {
-            store.dispatch('formModificarArticulo', articulo.value)
-            .then(() => {
-                router.push({name: 'InventarioArticulos'})
-            })
-        }
-
-        const cancelar = () => {
+        
+        // Limpiamos las propiedades de "Articulo" para dejarlos vacíos nuevamente
+        const limpiarInputs = () => {
             store.dispatch('limpiarArticulo')
         }
 
+        // Llamamos a la acción para modificar el articulo actual
+        const editarArticulo = () => {
+            store.dispatch('formModificarArticulo', articulo.value)
+            .then(() => {
+                limpiarInputs()
+                $('#editarArticulo').modal('toggle')
+            })
+        }
+
+
         return {
             articulo, btnIsDisabled, 
-            editarArticulo, cancelar
+            limpiarInputs, editarArticulo
         }
     },
 }
