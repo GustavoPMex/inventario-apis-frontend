@@ -54,21 +54,21 @@ export default createStore({
       state.articulos.push(payload)
       localStorage.setItem('articulos', JSON.stringify(state.articulos))
     },
-    setArticulo(state, payload){
-      state.articulo = payload
-    },
-    reemplazarArticulo(state, payload){
+    actualizarArticulo(state, payload){
       state.articulos = state.articulos.map(item => item.nombre === payload.nombre ? payload : item)
       localStorage.setItem('articulos', JSON.stringify(state.articulos))
     },
     eliminarArticulo(state){
       state.articulo = {
-          nombre: '',
-          categorias: [],
-          proveedor: '',
-          precio: 0,
-          cantidad: 0
-        }
+        nombre: '',
+        categorias: [],
+        proveedor: '',
+        precio: 0,
+        cantidad: 0
+      }
+    },
+    setArticulo(state, payload){
+      state.articulo = payload
     },
   },
   actions: {
@@ -90,7 +90,7 @@ export default createStore({
       commit('eliminarArticulo')
     },
     formModificarArticulo({commit}, articulo){
-      commit('reemplazarArticulo', articulo)
+      commit('actualizarArticulo', articulo)
       router.go()
     },
     // ---------- Redes sociales -----------

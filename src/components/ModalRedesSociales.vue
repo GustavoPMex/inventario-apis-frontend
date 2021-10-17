@@ -48,6 +48,7 @@
                     <button
                         class="btn btn-success"
                         @click="limpiarErrores"
+                        :disabled='btnDisabled'
                     >
                         Guardar
                     </button>
@@ -72,6 +73,7 @@
 <script>
 import { computed, ref } from '@vue/reactivity'
 import { useStore } from 'vuex'
+import Swal from 'sweetalert2'
 
 export default {
     setup(){
@@ -84,6 +86,27 @@ export default {
         // Obtenemos las redes sociales que tenemos actualmente almacenadas
         const redes = computed(() => {
             return store.getters.getRedesActuales
+        })
+
+        // El boton estará desactivado en caso de que el valor en el formulario
+        // sea igual a lo que tenemos almacenado actualmente
+        const btnDisabled = computed(() => {
+            const redesActuales = JSON.parse(localStorage.getItem('redes'))
+            try {
+                if( redesActuales.facebook === redes.value.facebook &&
+                    redesActuales.twitter === redes.value.twitter &&
+                    redesActuales.instagram === redes.value.instagram ){
+                        return true
+                }
+                return false
+            } catch (error) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops..',
+                    text: 'Ha ocurrido un error inesperado, recargue la página'
+                })
+            }
+            
         })
 
         // Limpiar los errores para que no se almacenen
@@ -123,10 +146,9 @@ export default {
                 store.dispatch('formRedesSociales', redes.value)
                 $('#modalRedes').modal('toggle')
             }
-
         }
 
-        return {errores, redes, limpiarErrores, actualizarRedes}
+        return {redes, btnDisabled, errores, limpiarErrores, actualizarRedes}
     }
 }
 </script>
