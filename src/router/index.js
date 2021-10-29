@@ -18,16 +18,6 @@ const routes = [
         component: () => import(/* webpackChunkName: "inventario" */ '../views/inventario/Articulos.vue'),
       },
       {
-        path: 'modificaciones',
-        name: 'InventarioModificaciones',
-        component: () => import(/* webpackChunkName: "modificaciones" */ '../views/inventario/Modificaciones.vue')
-      },
-      {
-        path: 'ventas',
-        name: 'InventarioVentas',
-        component: () => import(/* webpackChunkName: "modificaciones" */ '../views/inventario/Ventas.vue')
-      },
-      {
         path: 'agregar',
         name: 'InventarioAgregar',
         component: () => import(/* webpackChunkName: "agregar" */ '../views/inventario/Agregar.vue')

@@ -36,7 +36,8 @@ export default {
         // Si todos los campos están llenos, entonces habilitamos el botón
         const btnIsDisabled = computed(() => {
             const articuloActual = articulo.value
-            if( articuloActual.nombre && articuloActual.categorias.length &&
+            if( articuloActual.id && articuloActual.nombre && 
+                articuloActual.categorias.length && articuloActual.descripcion &&
                 articuloActual.proveedor && articuloActual.precio &&
                 articuloActual.cantidad){
                 return false

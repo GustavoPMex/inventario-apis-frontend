@@ -1,10 +1,31 @@
 <template>
+
+<div class="form-group">
+    <label class="label-form">Id</label>
+    <input 
+        type="number"
+        class='form-control' 
+        placeholder = 'Ingresa Id' 
+        min="0"
+        v-model="articulo.id"
+    >
+</div>
+
 <div class="form-group">
     <label class="label-form">Nombre</label>
     <input 
         class='form-control' 
         placeholder = 'Ingresa nombre' 
         v-model.trim="articulo.nombre"
+    >
+</div>
+
+<div class="form-group">
+    <label class="label-form">Imagen</label>
+    <input 
+        class='form-control' 
+        placeholder = 'Ingresa imagen' 
+        v-model="articulo.imagen"
     >
 </div>
 
@@ -20,6 +41,17 @@
     </select>
 </div>
 
+
+<div class="form-group">
+    <label class="label-form">Descripción</label>
+    <textarea 
+        class='form-control' 
+        rows="3"
+        placeholder = 'Ingresa Descripcion' 
+        v-model="articulo.descripcion"
+    >
+    </textarea>
+</div>
 
 <div class="form-group">
     <label class="label-form">Proveedor</label>

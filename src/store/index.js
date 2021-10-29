@@ -23,14 +23,15 @@ export default createStore({
     // El objeto articulo almacenará de manera temporal el objeto para
     // visualizarlo en el formulario
     articulo: {
+      id: 0,
       nombre: '',
+      imagen: '',
       categorias: [],
+      descripcion: '',
       proveedor: '',
       precio: 0,
       cantidad: 0
-    },
-    modificaciones: [],
-    ventas: [],
+    }
   },
   mutations: {
     // ---------- Redes sociales -----------
@@ -60,14 +61,17 @@ export default createStore({
     },
     // Actualizamos el articulo 
     actualizarArticulo(state, payload){
-      state.articulos = state.articulos.map(item => item.nombre === payload.nombre ? payload : item)
+      state.articulos = state.articulos.map(item => item.id === payload.id ? payload : item)
       localStorage.setItem('articulos', JSON.stringify(state.articulos))
     },
     // Elimina el articulo almacenado que se visualiza en el formulario de inventario
     eliminarArticuloAlmacenado(state){
       state.articulo = {
+        id: 0,
         nombre: '',
+        imagen: '',
         categorias: [],
+        description: '',
         proveedor: '',
         precio: 0,
         cantidad: 0

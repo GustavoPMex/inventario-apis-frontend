@@ -16,7 +16,20 @@
             :key="index"
         >
             <tr>
-            <td class="table-wordbreak">{{articulo.nombre}}</td>
+            <td class="table-wordbreak">
+                <a
+                    class="nameArticuloDetail"
+                    data-toggle="modal" 
+                    data-target="#articuloDetalles" 
+                    data-whatever="@getbootstrap"
+                    data-backdrop="static" data-keyboard="false"
+                    role="button"
+                    @click="configurarArticulo(articulo)"
+                >
+                    {{articulo.nombre}}
+                </a>
+                <ModalArticulo/>
+            </td>
             <td>
                 <p v-for="(categoria, index) in articulo.categorias"
                 :key="index">
@@ -33,12 +46,12 @@
                     data-whatever="@getbootstrap"
                     data-backdrop="static" data-keyboard="false"
                     @click="configurarArticulo(articulo)"
+                    role="button"
                 >
                     <i class="fas fa-pen-square icon-table-up"></i>
                 </a>
                 <ModalInventario />
                 <a  href="#"><i class="fas fa-trash-alt icon-table-del"></i></a>
-                <a  href="#"><i class="fas fa-shopping-cart icon-table-cart"></i></a>
             </td>
             </tr>
         </tbody>
@@ -51,12 +64,13 @@
 
 <script>
 import ModalInventario from '../../components/inventario/ModalInventario.vue'
+import ModalArticulo from '../../components/inventario/ModalArticulo.vue'
 import  {computed, onMounted} from 'vue'
 import { useStore } from 'vuex'
 
 export default {
     components: {
-        ModalInventario
+        ModalInventario, ModalArticulo
     },
     setup(){
 
