@@ -1,5 +1,5 @@
 <template>
-<div v-if="articulos" class="row w-100 mb-5 mx-auto table-responsive">
+<div v-if="articulos.length" class="row w-100 mb-5 mx-auto table-responsive">
     <table class="table table-striped table-dark">
         <thead>
             <tr>
@@ -30,12 +30,7 @@
                 </a>
                 <ModalArticulo/>
             </td>
-            <td>
-                <p v-for="(categoria, index) in articulo.categorias"
-                :key="index">
-                    {{categoria}}
-                </p>
-            </td>
+            <td>{{articulo.categoria.nombre}}</td>
             <td class="table-wordbreak">{{articulo.proveedor}}</td> 
             <td>${{articulo.precio}}</td>
             <td>{{articulo.cantidad}}</td>
@@ -51,7 +46,12 @@
                     <i class="fas fa-pen-square icon-table-up"></i>
                 </a>
                 <ModalInventario />
-                <a  href="#"><i class="fas fa-trash-alt icon-table-del"></i></a>
+                <a 
+                    @click="eliminarArti(articulo.id)"
+                    role="button"
+                >
+                    <i class="fas fa-trash-alt icon-table-del"></i>
+                </a>
             </td>
             </tr>
         </tbody>
@@ -89,12 +89,22 @@ export default {
             store.dispatch('configArticulo', articuloEstablecido)
         }
 
+        const eliminarArti = (idArticulo) => {
+            store.dispatch('eliminarArticulo', idArticulo)
+        }
+
+        const cargarInventario = () =>{
+            store.dispatch('loadInventario')
+        }
+
         // Cargamos el inventario que tenemos almacenado
         onMounted(async() => {
-            await store.dispatch('loadInventario')
+            await cargarInventario()
         })
 
-        return {articulos, configurarArticulo}
+        return {
+            articulos, 
+            configurarArticulo, eliminarArti}
     },
 
 }

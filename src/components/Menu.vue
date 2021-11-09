@@ -30,12 +30,6 @@
 
                 <li class="nav-item">
                     <a class="nav-link js-scroll-trigger" >
-                        Categorias
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link js-scroll-trigger" >
                         Taller
                     </a>
                 </li>

@@ -19,12 +19,8 @@
                 </div>
                 
                 <div class="mb-4">
-                    <p class="detailArticuloTitle"><strong>Categoria(s)</strong></p>
-                    <p
-                        v-for="(categoria, index) in articulo.categorias"
-                        :key='index'
-                        class="detailArticulo"
-                    >{{categoria}}</p>
+                    <p class="detailArticuloTitle"><strong>Categoria</strong></p>
+                    <p class="detailArticulo">{{articulo.categoria.nombre}}</p>
                 </div>
                 
                 <div class="mb-4">

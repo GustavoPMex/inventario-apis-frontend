@@ -1,4 +1,4 @@
-import { createStore } from 'vuex'
+import { createStore, storeKey } from 'vuex'
 import router from '../router'
 
 export default createStore({
@@ -26,11 +26,18 @@ export default createStore({
       id: 0,
       nombre: '',
       imagen: '',
-      categorias: [],
+      categoria: {},
       descripcion: '',
       proveedor: '',
       precio: 0,
       cantidad: 0
+    },
+    // Categorias
+    categorias: [],
+    // Sirve para almacenar una categoria de manera temporal
+    categoria: {
+      id: 0,
+      nombre: ''
     }
   },
   mutations: {
@@ -70,16 +77,41 @@ export default createStore({
         id: 0,
         nombre: '',
         imagen: '',
-        categorias: [],
+        categoria: {},
         description: '',
         proveedor: '',
         precio: 0,
         cantidad: 0
       }
     },
+    // Eliminar articulo
+    quitarArticulo(state, payload){
+      state.articulos = state.articulos.filter(item => item.id !== payload)
+      localStorage.setItem('articulos', JSON.stringify(state.articulos))
+    },
+    // Para establecer un articulo de manera temporal
     setArticulo(state, payload){
       state.articulo = payload
     },
+    // Establemos lo que tengamos almacenado en memoria
+    cargarCategorias(state, payload){
+      state.categorias = payload
+    },
+    // Añade una nueva categoria a la lista de categorias
+    nuevaCategoria(state, payload){
+      state.categorias.push(payload)
+      localStorage.setItem('categorias', JSON.stringify(state.categorias))
+    },
+    // Elimina la categoria almacenada de manera temporal
+    eliminarCategoriaAlmacenada(state){
+      state.categoria.id = 0
+      state.categoria.nombre = ''
+    },
+    // Eliminar categoria
+    quitarCategoria(state, payload){
+      state.categorias = state.categorias.filter(item => item.id !== payload)
+      localStorage.setItem('categorias', JSON.stringify(state.categorias))
+    }
   },
   actions: {
     // Carga todos los articulos que tengamos almacenados actualmente
@@ -93,6 +125,7 @@ export default createStore({
     },
     // Añadimos un nuevo articulo
     formNuevoArticulo({commit}, articulo){
+      articulo.id = Math.floor((Math.random() * 1000) + 1)
       commit('nuevoArticulo', articulo)
     },
     // Configuramos el articulo para poder visualizarlo en el formulario
@@ -106,6 +139,35 @@ export default createStore({
     // Editamos un articulo
     formModificarArticulo({commit}, articulo){
       commit('actualizarArticulo', articulo)
+    },
+    eliminarArticulo({commit}, id){
+      commit('quitarArticulo', id)
+    },
+    // Carga los articulos almacenados en el local storage
+    loadCategorias({commit}){
+      if (localStorage.getItem('categorias')){
+        const categorias = JSON.parse(localStorage.getItem('categorias'))
+        commit('cargarCategorias', categorias)
+      } else {
+        localStorage.setItem('categorias', JSON.stringify([]))
+      }
+    },
+    // Agreamos una categoria y le añadimos un id aleatorio
+    agregarCategoria({commit, state} ){
+      const nuevaCat = JSON.parse(JSON.stringify(state.categoria))
+      nuevaCat.id = Math.floor((Math.random() * 1000) + 1)
+      commit('nuevaCategoria', nuevaCat)
+
+      state.categoria.id = 0
+      state.categoria.nombre = ''
+    },
+    // Elimina la categoria temporal almacenada
+    limpiarCategoria({commit}){
+      commit('eliminarCategoriaAlmacenada')
+    },
+    // Categoria
+    eliminarCategoria({commit}, id){
+      commit('quitarCategoria', id)
     },
     // ---------- Redes sociales -----------
     // Carga las redes sociales que tenamos almacenadas actualmente
@@ -166,5 +228,12 @@ export default createStore({
     getArticulo(state){
       return state.articulo
     },
+    // Categorias
+    getCategorias(state){
+      return state.categorias
+    },
+    getCategoria(state){
+      return state.categoria
+    }
   }
 })

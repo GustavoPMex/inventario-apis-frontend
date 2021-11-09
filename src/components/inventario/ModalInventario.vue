@@ -55,10 +55,10 @@ export default {
         // Si los campos son validos, se activa el botón
         const btnIsDisabled = computed(() => {
             const articuloValid = articulo.value
-            if( articuloValid.id && articuloValid.nombre && 
-                articuloValid.categorias.length && articuloValid.descripcion &&
-                articuloValid.proveedor && articuloValid.precio &&
-                articuloValid.cantidad){
+            if( articuloValid.nombre && 
+                Object.entries(articuloValid.categoria).length && 
+                articuloValid.descripcion && articuloValid.proveedor && 
+                articuloValid.precio && articuloValid.cantidad){
                 return false
             }
             return true

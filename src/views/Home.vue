@@ -106,10 +106,14 @@ export default {
       store.dispatch('configReSoActuales')
     }
 
+    const cargarRedes = () =>{
+      store.dispatch('loadRedes')
+    }
+
     // Se cargan las redes sociales que tengamos almacenada
     // de manera inicial 
     onMounted(async() => {
-      await store.dispatch('loadRedes')
+      await cargarRedes()
     })
     
 

@@ -10171,8 +10171,8 @@ section.resume-section .resume-section-content {
 
 @media (min-width: 992px) {
   section.resume-section {
-    padding-left: 3rem;
-    padding-right: 3rem;
+    padding-left: 8rem;
+    padding-right: 8rem;
     padding-top: 6rem;
     padding-bottom: 5rem;
   }
@@ -10261,14 +10261,26 @@ a.active.router-link-exact-active.list-submenu{
   color: red;
 }
 
-.icon-table-cart{
-  font-size: 2em;
+.icon-table-del-cat{
+  font-size: 1.2em;
   margin: .1em .2em;
-  color: var(--blue);
+  color: red;
 }
 
+.icon-add-cat{
+  font-size: 1.3em;
+  margin-left: 5px;
+  color: rgb(13, 221, 13);
+  transition: .2s;
+}
+
+.icon-add-cat:hover{
+  color: rgb(11, 155, 11);
+}
+
+
 .btn-form{
-  font-size: 1.2em;
+  font-size: 1em;
   transition: .2s;
   margin-top: 1em;
 }
@@ -10288,7 +10300,7 @@ a.active.router-link-exact-active.list-submenu{
 }
 
 .form-control{
-  font-size: 1.2em;
+  font-size: .9em;
 }
 
 .perfil-bg{
@@ -10509,7 +10521,7 @@ input[type="checkbox"]{
 }
 
 .p-vacia{
-  font-size: 2.5em;
+  font-size: 1.5em;
 }
 
 
@@ -10590,4 +10602,9 @@ input[type="checkbox"]{
 
 table{
   font-size: 1.2em;
+}
+
+.table-cat{
+  overflow: auto !important;
+  height: 30vh !important;
 }
