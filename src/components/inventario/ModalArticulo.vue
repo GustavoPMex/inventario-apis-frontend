@@ -5,7 +5,7 @@
                 <div class="modal-header">
                     <h5 class="modal-title" id="articuloDetallesLabel">Detalles</h5>
                 </div>
-            <div class="modal-body">
+            <div class="modal-body detailOverflow">
                 <div class="mb-4">
                     <img :src="`${articulo.imagen}`" 
                         class="imgDetailArticulo" 

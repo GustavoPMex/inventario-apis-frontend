@@ -1,5 +1,5 @@
 <template>
-    <div class="modal  modalfade" id="modalRedes" tabindex="-1" aria-labelledby="modalRedesLabel" aria-hidden="true">
+    <div class="modal modalfade" id="modalRedes" tabindex="-1" aria-labelledby="modalRedesLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
             <div class="modal-header">
@@ -73,7 +73,7 @@
 <script>
 import { computed, ref } from '@vue/reactivity'
 import { useStore } from 'vuex'
-import Swal from 'sweetalert2'
+import swal from 'sweetalert'
 
 export default {
     setup(){
@@ -100,7 +100,7 @@ export default {
                 }
                 return false
             } catch (error) {
-                Swal.fire({
+                swal({
                     icon: 'error',
                     title: 'Oops..',
                     text: 'Ha ocurrido un error inesperado, recargue la página'

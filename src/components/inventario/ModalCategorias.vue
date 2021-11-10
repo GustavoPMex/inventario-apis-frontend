@@ -41,7 +41,7 @@
                                 </td>
                                 <td>
                                     <a 
-                                        @click="eliminarCat(categoria.id)"
+                                        @click="eliminarCat(categoria)"
                                         role="button"
                                     >
                                         <i class="fas fa-trash-alt icon-table-del-cat"></i>
@@ -74,6 +74,8 @@
 <script>
 import { computed } from '@vue/reactivity'
 import { useStore } from 'vuex'
+import swal from 'sweetalert'
+
 
 export default {
     setup() {
@@ -104,8 +106,18 @@ export default {
             }
         }
 
-        const eliminarCat = (idCat) => {
-            store.dispatch('eliminarCategoria', idCat)
+        const eliminarCat = (categoria) => {
+            swal({
+                text: `¿Eliminar ${categoria.nombre}?`,
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+            .then((willDelete) => {
+                if (willDelete) {
+                    store.dispatch('eliminarCategoria', categoria.id)
+                }
+            });
         }
 
         return {

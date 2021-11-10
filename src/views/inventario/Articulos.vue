@@ -47,7 +47,7 @@
                 </a>
                 <ModalInventario />
                 <a 
-                    @click="eliminarArti(articulo.id)"
+                    @click="eliminarArti(articulo)"
                     role="button"
                 >
                     <i class="fas fa-trash-alt icon-table-del"></i>
@@ -56,6 +56,7 @@
             </tr>
         </tbody>
     </table>
+    
 </div>
 
 <p v-else class="p-vacia">Sin articulos</p>
@@ -89,8 +90,18 @@ export default {
             store.dispatch('configArticulo', articuloEstablecido)
         }
 
-        const eliminarArti = (idArticulo) => {
-            store.dispatch('eliminarArticulo', idArticulo)
+        const eliminarArti = (articulo) => {
+            swal({
+                text: `¿Eliminar ${articulo.nombre}`,
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+            .then((willDelete) => {
+                if (willDelete) {
+                    store.dispatch('eliminarArticulo', articulo.id)
+                } 
+            });
         }
 
         const cargarInventario = () =>{

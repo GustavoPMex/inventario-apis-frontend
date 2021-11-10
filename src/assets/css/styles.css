@@ -5434,6 +5434,7 @@ a.close.disabled {
   overflow-y: auto;
 }
 
+
 .modal {
   position: fixed;
   top: 0;
@@ -5451,10 +5452,12 @@ a.close.disabled {
   width: auto;
   margin: 0.5rem;
   pointer-events: none;
+  
 }
 .modal.fade .modal-dialog {
   transition: transform 0.3s ease-out;
   transform: translate(0, -50px);
+  
 }
 @media (prefers-reduced-motion: reduce) {
   .modal.fade .modal-dialog {
@@ -10285,6 +10288,14 @@ a.active.router-link-exact-active.list-submenu{
   margin-top: 1em;
 }
 
+.label-form{
+  font-size: 1.3em;
+}
+
+.form-control{
+  font-size: .9em;
+}
+
 .btn-search{
   background-color: #6c757d;
   color: #fff;
@@ -10295,13 +10306,7 @@ a.active.router-link-exact-active.list-submenu{
   background-color: #bd5d38;
 }
 
-.label-form{
-  font-size: 1.5em;
-}
 
-.form-control{
-  font-size: .9em;
-}
 
 .perfil-bg{
   width: 100%;
@@ -10414,15 +10419,20 @@ a.active.router-link-exact-active.list-submenu{
 
 /* Modal sweetalert */
 
-.swal2-popup{
-  background-color: #454d55 !important;
+.swal-modal{
+  background-color: #555F6A !important;
 }
 
-.swal2-title{
+.swal-title{
   color: white;
 }
 
-.swal2-html-container{
+.swal-text{
+  color: white;
+  font-size: 22px !important;
+}
+
+.swal-html-container{
   color: white !important;
 }
 
@@ -10537,6 +10547,7 @@ input[type="checkbox"]{
   }
 }
 
+
 .error-mensaje{
   color: rgb(255, 31, 31);
   font-size: 1.2em;
@@ -10579,8 +10590,9 @@ input[type="checkbox"]{
 /* Estilos y detalles inventario */
 
 .detailArticuloTitle{
-  font-size: 1.6em;
+  font-size: 1.2em;
   margin-bottom: 0;
+  -webkit-text-stroke: 1px #bd5d38; /* width and color */
 }
 
 .detailArticulo{
@@ -10600,6 +10612,11 @@ input[type="checkbox"]{
   color: #e07043 !important;
 }
 
+.detailOverflow{
+  overflow: auto !important;
+  height: 60vh !important;
+}
+
 table{
   font-size: 1.2em;
 }
@@ -10607,4 +10624,8 @@ table{
 .table-cat{
   overflow: auto !important;
   height: 30vh !important;
+}
+
+.elementstyle{
+  padding-right: 0 !important;
 }
