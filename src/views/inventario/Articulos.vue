@@ -87,7 +87,7 @@ export default {
         const configurarArticulo = (articulo) => {
             // Copia del objeto para evitar que se modifique en la lista
             const articuloEstablecido = JSON.parse(JSON.stringify(articulo))
-            store.dispatch('configArticulo', articuloEstablecido)
+            store.dispatch('establecerArticuloTemporal', articuloEstablecido)
         }
 
         const eliminarArti = (articulo) => {
@@ -105,7 +105,7 @@ export default {
         }
 
         const cargarInventario = () =>{
-            store.dispatch('loadInventario')
+            store.dispatch('establecerArticulos')
         }
 
         // Cargamos el inventario que tenemos almacenado

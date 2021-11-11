@@ -1,9 +1,8 @@
 import { createStore, storeKey } from 'vuex'
-import router from '../router'
 
 export default createStore({
   state: {
-    // ---------- Home -----------
+    // <<< ------------------------------ Inicio ------------------------------ >>>
     redesSociales: {
       facebook: '',
       twitter: '', 
@@ -11,14 +10,14 @@ export default createStore({
     },
     // Sirve para almacenar las redes sociales actuales
     // de manera temporal
-    redesSocialesStorage: {
+    redesSocialesTemporal: {
       facebook: '',
       twitter: '', 
       instagram: ''
     },
     // Autorización del usuario(Token)
     userAuth: true,
-    // ---------- INVENTARIO -----------
+    // <<< ------------------------------ Inventario ------------------------------ >>>
     articulos: [],
     // El objeto articulo almacenará de manera temporal el objeto para
     // visualizarlo en el formulario
@@ -41,38 +40,41 @@ export default createStore({
     }
   },
   mutations: {
-    // ---------- Redes sociales -----------
+    // <<< ------------------------------ Redes sociales ------------------------------ >>>
     // Establecemos las redes sociales que actualmente tengamos almacenadas
     // En el local storage
-    cargarRedes(state, payload){
+    ESTABLECER_REDES(state, payload){
       state.redesSociales = payload
     },
     // Establecemos temporalmente las redes sociales que tenemos almacenadas
     // actualmente para visualizarlas en el formulario
-    setReSoActuales(state, payload){
-      state.redesSocialesStorage = payload
+    ESTABLECER_REDES_TEMPORALES(state, payload){
+      state.redesSocialesTemporal = payload
     },
-    // Establecemos las nuevas redes sociales que nos provee el formulario
-    setRedes(state, payload){
+    // Añadimos las nuevas redes sociales que nos provee el formulario
+    NUEVAS_REDES_SOCIALES(state, payload){
       state.redesSociales = payload
     },
-    // ---------- Articulos -----------
-    // Carga los articulos almacenados en memoria
-    cargarArticulos(state, payload){
+    // <<< ------------------------------ Articulos ------------------------------ >>>
+    // Establece los articulos almacenados en memoria
+    ESTABLECER_ARTICULOS(state, payload){
       state.articulos = payload
     },
+    // Para establecer un articulo de manera temporal
+    ESTABLECER_ARTICULO_TEMPORAL(state, payload){
+      state.articulo = payload
+    },
     // Añadimos un nuevo articulo y lo establecemos
-    nuevoArticulo(state, payload){
+    NUEVO_ARTICULO(state, payload){
       state.articulos.push(payload)
-      localStorage.setItem('articulos', JSON.stringify(state.articulos))
     },
     // Actualizamos el articulo 
-    actualizarArticulo(state, payload){
+    ACTUALIZAR_ARTICULO(state, payload){
       state.articulos = state.articulos.map(item => item.id === payload.id ? payload : item)
-      localStorage.setItem('articulos', JSON.stringify(state.articulos))
     },
-    // Elimina el articulo almacenado que se visualiza en el formulario de inventario
-    eliminarArticuloAlmacenado(state){
+    // Elimina el articulo almacenado en "Articulo" que se utilizar 
+    // para visualizar en el formulario
+    ELIMINAR_ARTICULO_ALMACENADO(state){
       state.articulo = {
         id: 0,
         nombre: '',
@@ -84,98 +86,101 @@ export default createStore({
         cantidad: 0
       }
     },
-    // Eliminar articulo
-    quitarArticulo(state, payload){
+    // Eliminar articulo en especifico
+    ELIMINAR_ARTICULO(state, payload){
       state.articulos = state.articulos.filter(item => item.id !== payload)
-      localStorage.setItem('articulos', JSON.stringify(state.articulos))
+      
     },
-    // Para establecer un articulo de manera temporal
-    setArticulo(state, payload){
-      state.articulo = payload
-    },
+    // <<< ------------------------------ Categorias ------------------------------ >>>
     // Establemos lo que tengamos almacenado en memoria
-    cargarCategorias(state, payload){
+    ESTABLECER_CATEGORIAS(state, payload){
       state.categorias = payload
     },
     // Añade una nueva categoria a la lista de categorias
-    nuevaCategoria(state, payload){
+    NUEVA_CATEGORIA(state, payload){
       state.categorias.push(payload)
-      localStorage.setItem('categorias', JSON.stringify(state.categorias))
     },
     // Elimina la categoria almacenada de manera temporal
-    eliminarCategoriaAlmacenada(state){
+    ELIMINAR_CATEGORIA_ALMACENADA(state){
       state.categoria.id = 0
       state.categoria.nombre = ''
     },
     // Eliminar categoria
-    quitarCategoria(state, payload){
+    ELIMINAR_CATEGORIA(state, payload){
       state.categorias = state.categorias.filter(item => item.id !== payload)
-      localStorage.setItem('categorias', JSON.stringify(state.categorias))
+      
     }
   },
   actions: {
+    // <<< ------------------------------ Articulos ------------------------------ >>>
     // Carga todos los articulos que tengamos almacenados actualmente
-    loadInventario({commit}){
+    establecerArticulos({commit}){
       if (localStorage.getItem('articulos')){
         const articulos = JSON.parse(localStorage.getItem('articulos'))
-        commit('cargarArticulos', articulos)
+        commit('ESTABLECER_ARTICULOS', articulos)
       } else {
         localStorage.setItem('articulos', JSON.stringify([]))
       }
     },
-    // Añadimos un nuevo articulo
-    formNuevoArticulo({commit}, articulo){
-      articulo.id = Math.floor((Math.random() * 1000) + 1)
-      commit('nuevoArticulo', articulo)
-    },
     // Configuramos el articulo para poder visualizarlo en el formulario
-    configArticulo({commit}, articulo){
-      commit('setArticulo', articulo)
+    establecerArticuloTemporal({commit}, articulo){
+      commit('ESTABLECER_ARTICULO_TEMPORAL', articulo)
     },
-    // Eliminamos lo que se encuentre en state.articulo
-    limpiarArticulo({commit}){
-      commit('eliminarArticuloAlmacenado')
+    // Añadimos un nuevo articulo
+    nuevoArticulo({commit, state}, articulo){
+      articulo.id = Math.floor((Math.random() * 1000) + 1)
+      commit('NUEVO_ARTICULO', articulo)
+      localStorage.setItem('articulos', JSON.stringify(state.articulos))
     },
     // Editamos un articulo
-    formModificarArticulo({commit}, articulo){
-      commit('actualizarArticulo', articulo)
+    actualizarArticulo({commit, state}, articulo){
+      commit('ACTUALIZAR_ARTICULO', articulo)
+      localStorage.setItem('articulos', JSON.stringify(state.articulos))
     },
-    eliminarArticulo({commit}, id){
-      commit('quitarArticulo', id)
+    // Eliminamos lo que se encuentre en state.articulo
+    eliminarArticuloAlmacenado({commit}){
+      commit('ELIMINAR_ARTICULO_ALMACENADO')
     },
+    eliminarArticulo({commit, state}, id){
+      commit('ELIMINAR_ARTICULO', id)
+      localStorage.setItem('articulos', JSON.stringify(state.articulos))
+    },
+    // <<< ------------------------------ Categorias ------------------------------ >>>
     // Carga los articulos almacenados en el local storage
-    loadCategorias({commit}){
+    establecerCategorias({commit}){
       if (localStorage.getItem('categorias')){
         const categorias = JSON.parse(localStorage.getItem('categorias'))
-        commit('cargarCategorias', categorias)
+        commit('ESTABLECER_CATEGORIAS', categorias)
       } else {
         localStorage.setItem('categorias', JSON.stringify([]))
       }
     },
     // Agreamos una categoria y le añadimos un id aleatorio
-    agregarCategoria({commit, state} ){
+    nuevaCategoria({commit, state} ){
       const nuevaCat = JSON.parse(JSON.stringify(state.categoria))
       nuevaCat.id = Math.floor((Math.random() * 1000) + 1)
-      commit('nuevaCategoria', nuevaCat)
+      commit('NUEVA_CATEGORIA', nuevaCat)
+      localStorage.setItem('categorias', JSON.stringify(state.categorias))
 
       state.categoria.id = 0
       state.categoria.nombre = ''
     },
     // Elimina la categoria temporal almacenada
-    limpiarCategoria({commit}){
-      commit('eliminarCategoriaAlmacenada')
+    eliminarCategoriaAlmacenada({commit}){
+      commit('ELIMINAR_CATEGORIA_ALMACENADA')
     },
     // Categoria
-    eliminarCategoria({commit}, id){
-      commit('quitarCategoria', id)
+    eliminarCategoria({commit, state}, id){
+      commit('ELIMINAR_CATEGORIA', id)
+      localStorage.setItem('categorias', JSON.stringify(state.categorias))
     },
-    // ---------- Redes sociales -----------
+    // <<< ------------------------------ Redes sociales ------------------------------ >>>
     // Carga las redes sociales que tenamos almacenadas actualmente
     // En caso de que no tengamos, se crea el objeto vacío
-    loadRedes({commit}){
+    establecerRedes({commit}){
       if(localStorage.getItem('redes')){
         const redes = JSON.parse(localStorage.getItem('redes'))
-        commit('cargarRedes', redes)
+        commit('ESTABLECER_REDES', redes)
       } else {
         localStorage.setItem('redes', JSON.stringify({
           facebook: '',
@@ -187,18 +192,18 @@ export default createStore({
     // Cuando se llama a ésta funcion, establecemos las redes sociales actuales.
     // Que son almacenadas temporalmente para que podamos utilizarlas 
     // en el formulario
-    configReSoActuales({commit}){
+    establecerRedesTemporales({commit}){
       const redes = JSON.parse(localStorage.getItem('redes'))
-      commit('setReSoActuales', redes)
+      commit('ESTABLECER_REDES_TEMPORALES', redes)
     },
     // Procesamos el formulario para establecer las nuevas redes sociales
     // y almacenarlas en el local storage
-    formRedesSociales({commit, state}, redes){
-      commit('setRedes', redes)
+    nuevasRedesSociales({commit, state}, redes){
+      commit('NUEVAS_REDES_SOCIALES', redes)
       localStorage.setItem('redes', JSON.stringify(state.redesSociales))
       // Limpiamos "las redes sociales actuales" que se usan para
       // visualizarlas en el formulario
-      commit('setReSoActuales', {
+      commit('ESTABLECER_REDES_TEMPORALES', {
         facebook: '',
         twitter: '', 
         instagram: ''
@@ -209,26 +214,26 @@ export default createStore({
   modules: {
   },
   getters:{
-    // ---------- Redes sociales -----------
-    getRedes(state){
+    // <<< ------------------------------ Redes sociales ------------------------------ >>>
+    getRedesSociales(state){
       return state.redesSociales
     },
-    getRedesActuales(state){
-      return state.redesSocialesStorage
+    getRedesTemporales(state){
+      return state.redesSocialesTemporal
     },
     // Autorizacion
     getAuth(state){
       return state.userAuth
     },
 
-    // ---------- Articulos -----------
+    // <<< ------------------------------ Articulos ------------------------------ >>>
     getArticulos(state){
       return state.articulos
     },
     getArticulo(state){
       return state.articulo
     },
-    // Categorias
+    // <<< ------------------------------ Categorias ------------------------------ >>>
     getCategorias(state){
       return state.categorias
     },

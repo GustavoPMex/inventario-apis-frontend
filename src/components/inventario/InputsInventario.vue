@@ -36,10 +36,13 @@
         </i>
     </a>
 
+    <p>Categoria actual: {{articulo.categoria.nombre}}</p>
+
     <select
         class="form-select"  
         v-model="articulo.categoria"    
     >
+        
         <option :value="{}" disabled selected>Seleccione una categoria</option>
         <option 
             v-for="(categoria, index) in categorias"
@@ -123,7 +126,7 @@ export default {
         })
 
         const cargarCategorias = () =>{
-            store.dispatch('loadCategorias')
+            store.dispatch('establecerCategorias')
         }
 
         onMounted(async() => {

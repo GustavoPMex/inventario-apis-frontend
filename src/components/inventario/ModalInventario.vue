@@ -66,12 +66,12 @@ export default {
         
         // Limpiamos las propiedades de "Articulo" para dejarlos vacíos nuevamente
         const limpiarInputs = () => {
-            store.dispatch('limpiarArticulo')
+            store.dispatch('eliminarArticuloAlmacenado')
         }
 
         // Llamamos a la acción para modificar el articulo actual
         const editarArticulo = () => {
-            store.dispatch('formModificarArticulo', articulo.value)
+            store.dispatch('actualizarArticulo', articulo.value)
             .then(() => {
                 limpiarInputs()
                 $('#editarArticulo').modal('toggle')

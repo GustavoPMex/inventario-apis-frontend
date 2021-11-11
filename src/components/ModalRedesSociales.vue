@@ -85,7 +85,7 @@ export default {
 
         // Obtenemos las redes sociales que tenemos actualmente almacenadas
         const redes = computed(() => {
-            return store.getters.getRedesActuales
+            return store.getters.getRedesTemporales
         })
 
         // El boton estará desactivado en caso de que el valor en el formulario
@@ -143,7 +143,7 @@ export default {
             })
 
             if (!errores.value.length){
-                store.dispatch('formRedesSociales', redes.value)
+                store.dispatch('nuevasRedesSociales', redes.value)
                 $('#modalRedes').modal('toggle')
             }
         }

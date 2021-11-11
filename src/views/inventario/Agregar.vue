@@ -47,11 +47,11 @@ export default {
 
         // Hacemos un llamado para limpiar los inputs
         const limpiarInputs = () => {
-            store.dispatch('limpiarArticulo')
+            store.dispatch('eliminarArticuloAlmacenado')
         }
         // Hacemos un llamado a la acción para añadir un nuevo articulo.
         const nuevoArticulo = () => {
-            store.dispatch('formNuevoArticulo', articulo.value)
+            store.dispatch('nuevoArticulo', articulo.value)
             .then(() => {
                 router.push({name: 'InventarioArticulos'})
                 limpiarInputs()

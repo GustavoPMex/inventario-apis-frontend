@@ -97,17 +97,17 @@ export default {
     // Las redes sociales que tenemos actualmente almacenadas
     // en el state de vuex
     const redes = computed(() => {
-      return store.getters.getRedes
+      return store.getters.getRedesSociales
     })
 
     // Establecemos las redes sociales que tenemos guardadas actualmente
     // para que podamos ver los datos el form de redes sociales
     const redesActuales = ()  => {
-      store.dispatch('configReSoActuales')
+      store.dispatch('establecerRedesTemporales')
     }
 
     const cargarRedes = () =>{
-      store.dispatch('loadRedes')
+      store.dispatch('establecerRedes')
     }
 
     // Se cargan las redes sociales que tengamos almacenada

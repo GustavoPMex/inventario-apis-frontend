@@ -95,12 +95,12 @@ export default {
         })
 
         const limpiarCategoria = () =>{
-            store.dispatch('limpiarCategoria')
+            store.dispatch('eliminarCategoriaAlmacenada')
         }
 
         const nuevaCategoria = () =>{
             if (categoria.value.nombre.length > 2 && categoria.value.nombre.length < 20){
-                store.dispatch('agregarCategoria')
+                store.dispatch('nuevaCategoria')
             } else {
                 alert('El nombre de la categoria debe ser mayor a 2 y menor que 20')
             }

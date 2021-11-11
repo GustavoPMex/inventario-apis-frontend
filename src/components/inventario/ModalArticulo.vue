@@ -71,7 +71,7 @@ export default {
         })
 
         const limpiarArticulo = () =>{
-            store.dispatch('limpiarArticulo')
+            store.dispatch('eliminarArticuloAlmacenado')
         }
 
         return {articulo , limpiarArticulo}
