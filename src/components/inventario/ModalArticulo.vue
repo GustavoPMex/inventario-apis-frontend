@@ -35,7 +35,7 @@
 
                 <div class="mb-4">
                     <p class="detailArticuloTitle"><strong>Precio</strong></p>
-                    <p class="detailArticulo">${{articulo.precio}}</p>
+                    <p class="detailArticulo">${{formatoPrecio(articulo.precio)}}</p>
                 </div>
 
                 <div class="mb-4">
@@ -70,11 +70,18 @@ export default {
             return store.getters.getArticulo
         })
 
+        const formatoPrecio =  (precio) =>{
+            return new Intl.NumberFormat().format(precio)
+        }
+
         const limpiarArticulo = () =>{
             store.dispatch('eliminarArticuloAlmacenado')
         }
 
-        return {articulo , limpiarArticulo}
+        return {
+            articulo , 
+            formatoPrecio, limpiarArticulo
+        }
     }
 }
 </script>

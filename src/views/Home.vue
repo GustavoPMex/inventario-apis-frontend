@@ -59,7 +59,9 @@
         <button
           v-if="authorization" 
           class="btn btn-success mt-5"
-          data-toggle="modal" data-target="#modalRedes" data-whatever="@getbootstrap"
+          data-toggle="modal" 
+          data-target="#modalRedes" 
+          data-whatever="@getbootstrap"
           data-backdrop="static" data-keyboard="false"
           @click="redesActuales"
         >

@@ -10173,6 +10173,11 @@ section.resume-section .resume-section-content {
 
 
 @media (min-width: 992px) {
+  #app nav{
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
   section.resume-section {
     padding-left: 8rem;
     padding-right: 8rem;
@@ -10195,7 +10200,7 @@ section.resume-section .resume-section-content {
 }
 
 .a-content-div{
-  background-color: #bd5d38;
+  background-color: #B60000;
   padding: 1em;
   border-radius: 1em;
   transition: .3s;
@@ -10208,7 +10213,7 @@ section.resume-section .resume-section-content {
 
 .a-content-div:hover{
   text-decoration: none;
-  background-color: #343a40;
+  background-color: #bd5d38;
 }
 
 .div-content-a{
@@ -10222,7 +10227,7 @@ section.resume-section .resume-section-content {
 
 .p-content-a{
   color: #fff;
-  font-size: 1.4em;
+  font-size: 1.2em;
 }
 
 .icon-social-icons{
@@ -10629,3 +10634,12 @@ table{
 .elementstyle{
   padding-right: 0 !important;
 }
+
+select option{
+  text-transform: capitalize;
+}
+
+.categoriaAct{
+  color: #3AFF00;
+}
+

@@ -36,7 +36,11 @@
         </i>
     </a>
 
-    <p>Categoria actual: {{articulo.categoria.nombre}}</p>
+    <p 
+        class="categoriaAct"
+        v-if="disableCatAct">
+        Categoria actual: {{articulo.categoria.nombre}}
+    </p>
 
     <select
         class="form-select"  
@@ -118,8 +122,12 @@ export default {
         const route = useRoute()
 
         const disableBtnAdd = computed(()=>{
-            return route.name != 'InventarioArticulos'
+            return route.name == 'InventarioAgregar'
         })
+
+        const disableCatAct = computed(() => {
+            return route.name == 'InventarioArticulos'
+        }) 
         
         const categorias = computed(() =>{
             return store.getters.getCategorias
@@ -135,7 +143,7 @@ export default {
 
 
         return {
-            categorias, disableBtnAdd,
+            categorias, disableCatAct, disableBtnAdd,
             cargarCategorias
         }
     },

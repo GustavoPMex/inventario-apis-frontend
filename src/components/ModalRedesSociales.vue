@@ -1,10 +1,10 @@
 <template>
-    <div class="modal modalfade" id="modalRedes" tabindex="-1" aria-labelledby="modalRedesLabel" aria-hidden="true">
+    <div class="modal modalfade" id="modalRedes"  tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="modalRedesLabel">Redes sociales</h5>
-            </div>
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalRedesLabel">Redes sociales</h5>
+                </div>
             <div class="modal-body">
                 <form @submit.prevent='actualizarRedes'>
                     <div class="form-group">

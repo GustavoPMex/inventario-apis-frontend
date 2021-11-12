@@ -32,7 +32,7 @@
             </td>
             <td>{{articulo.categoria.nombre}}</td>
             <td class="table-wordbreak">{{articulo.proveedor}}</td> 
-            <td>${{articulo.precio}}</td>
+            <td>$ {{ formatoPrecio(articulo.precio) }}</td>
             <td>{{articulo.cantidad}}</td>
             <td>
                 <a  
@@ -80,8 +80,12 @@ export default {
         // Obtenemos los articulos almacenados actualmente en el state de vuex
         const articulos = computed(() => {
             return store.getters.getArticulos
-            
         })
+
+        const formatoPrecio =  (precio) =>{
+            return new Intl.NumberFormat().format(precio)
+        }
+        
 
         // Configuramos el articulo actual para usarlo en el modal
         const configurarArticulo = (articulo) => {
@@ -92,7 +96,7 @@ export default {
 
         const eliminarArti = (articulo) => {
             swal({
-                text: `¿Eliminar ${articulo.nombre}`,
+                text: `¿Eliminar ${articulo.nombre}?`,
                 icon: "warning",
                 buttons: true,
                 dangerMode: true,
@@ -115,8 +119,9 @@ export default {
 
         return {
             articulos, 
-            configurarArticulo, eliminarArti}
-    },
+            formatoPrecio,configurarArticulo, eliminarArti
+        }
+    }
 
 }
 </script>
