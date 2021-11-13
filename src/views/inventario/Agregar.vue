@@ -15,7 +15,7 @@
 <script>
 import InputsInventario from '../../components/inventario/InputsInventario.vue'
 import {useStore} from 'vuex'
-import { computed, ref } from '@vue/reactivity'
+import { computed } from '@vue/reactivity'
 import  {useRouter} from 'vue-router'
 
 export default {

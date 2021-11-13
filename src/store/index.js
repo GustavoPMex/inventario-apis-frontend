@@ -19,6 +19,8 @@ export default createStore({
     userAuth: true,
     // <<< ------------------------------ Inventario ------------------------------ >>>
     articulos: [],
+    // Lista que almacena los articulos filtrados
+    articulosFiltrados: [],
     // El objeto articulo almacenará de manera temporal el objeto para
     // visualizarlo en el formulario
     articulo: {
@@ -60,6 +62,9 @@ export default createStore({
     ESTABLECER_ARTICULOS(state, payload){
       state.articulos = payload
     },
+    ESTABLECER_ARTICULOS_FILTRADOS(state, payload){
+      state.articulosFiltrados = payload
+    },
     // Para establecer un articulo de manera temporal
     ESTABLECER_ARTICULO_TEMPORAL(state, payload){
       state.articulo = payload
@@ -71,6 +76,7 @@ export default createStore({
     // Actualizamos el articulo 
     ACTUALIZAR_ARTICULO(state, payload){
       state.articulos = state.articulos.map(item => item.id === payload.id ? payload : item)
+      state.articulosFiltrados = state.articulosFiltrados.map(item => item.id === payload.id ? payload : item)
     },
     // Elimina el articulo almacenado en "Articulo" que se utilizar 
     // para visualizar en el formulario
@@ -89,7 +95,7 @@ export default createStore({
     // Eliminar articulo en especifico
     ELIMINAR_ARTICULO(state, payload){
       state.articulos = state.articulos.filter(item => item.id !== payload)
-      
+      state.articulosFiltrados = state.articulosFiltrados.filter(item => item.id !== payload)
     },
     // <<< ------------------------------ Categorias ------------------------------ >>>
     // Establemos lo que tengamos almacenado en memoria
@@ -144,6 +150,18 @@ export default createStore({
     eliminarArticulo({commit, state}, id){
       commit('ELIMINAR_ARTICULO', id)
       localStorage.setItem('articulos', JSON.stringify(state.articulos))
+    },
+    establecerArticulosFiltrados({commit, state}, categoria){
+      if (categoria === 'todas'){
+        const articulosFiltrados = state.articulos
+        commit('ESTABLECER_ARTICULOS_FILTRADOS', articulosFiltrados)
+      } else {
+        const articulosFiltrados = state.articulos.filter(item =>
+          item.categoria.id == categoria.id
+        )
+        commit('ESTABLECER_ARTICULOS_FILTRADOS', articulosFiltrados)
+      }
+      
     },
     // <<< ------------------------------ Categorias ------------------------------ >>>
     // Carga los articulos almacenados en el local storage
@@ -229,6 +247,9 @@ export default createStore({
     // <<< ------------------------------ Articulos ------------------------------ >>>
     getArticulos(state){
       return state.articulos
+    },
+    getArticulosFiltrados(state){
+      return state.articulosFiltrados
     },
     getArticulo(state){
       return state.articulo

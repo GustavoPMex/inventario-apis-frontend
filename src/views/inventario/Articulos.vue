@@ -1,5 +1,47 @@
 <template>
+
+<div class="row w-100 mx-auto mb-5 justify-content-center">
+    <div class="col-12 col-lg-3  mt-4 mt-lg-2 text-center">
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Categorias
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a
+                            class="dropdown-item" 
+                            role="button"
+                            @click="configurarArticulos('todas')"
+                        >
+                            Todas
+                        </a>
+                        <a 
+                            v-for="(categoria, index) in categorias"
+                            :key="index"
+                            class="dropdown-item" role="button"
+                            @click="configurarArticulos(categoria)"
+                        >
+                            {{categoria.nombre}}
+                        </a>
+                </div>
+            </div>
+    </div>
+
+    <div class="col-12 col-lg-3  mt-4 mt-lg-2 text-center">
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Proveedores
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" role="button">Todo</a>
+                        <a class="dropdown-item" role="button">Todo</a>
+                        <a class="dropdown-item" role="button">Todo</a>
+                </div>
+            </div>
+    </div>
+</div>
+
 <div v-if="articulos.length" class="row w-100 mb-5 mx-auto table-responsive">
+
     <table class="table table-striped table-dark">
         <thead>
             <tr>
@@ -79,13 +121,23 @@ export default {
         
         // Obtenemos los articulos almacenados actualmente en el state de vuex
         const articulos = computed(() => {
-            return store.getters.getArticulos
+            return store.getters.getArticulosFiltrados
         })
 
+        //  Obtenemos las categorias
+        const categorias = computed(() => {
+            return store.getters.getCategorias
+        })
+
+        //  Metodo para convertir el precio a un formato estandar
         const formatoPrecio =  (precio) =>{
             return new Intl.NumberFormat().format(precio)
         }
         
+
+        const configurarArticulos = (categoria) =>{
+            store.dispatch('establecerArticulosFiltrados', categoria)
+        }
 
         // Configuramos el articulo actual para usarlo en el modal
         const configurarArticulo = (articulo) => {
@@ -115,11 +167,13 @@ export default {
         // Cargamos el inventario que tenemos almacenado
         onMounted(async() => {
             await cargarInventario()
+            await configurarArticulos('todas')
         })
 
         return {
-            articulos, 
-            formatoPrecio,configurarArticulo, eliminarArti
+            articulos, categorias,
+            formatoPrecio, configurarArticulos, configurarArticulo,
+            eliminarArti
         }
     }
 
