@@ -40,9 +40,9 @@
     </div>
 </div>
 
-<div v-if="articulos.length" class="row w-100 mb-5 mx-auto table-responsive">
+<div v-if="articulos.length" class="row w-100 mb-5 mx-auto table-responsive table-overflow">
 
-    <table class="table table-striped table-dark">
+    <table class="table table-striped table-dark ">
         <thead>
             <tr>
             <th scope="col">Articulo</th>

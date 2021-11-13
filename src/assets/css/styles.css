@@ -10171,7 +10171,7 @@ section.resume-section {
   padding-left: 1rem;
   padding-right: 1rem;
   padding-top: 5rem;
-  padding-bottom: 5rem;
+  padding-bottom: 2rem !important;
   max-width: 75rem;
 }
 section.resume-section .resume-section-content {
@@ -10651,3 +10651,7 @@ select option{
   color: #3AFF00;
 }
 
+.table-overflow{
+  overflow: auto !important;
+  max-height: 600px !important;
+}
