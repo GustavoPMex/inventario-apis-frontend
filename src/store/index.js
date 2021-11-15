@@ -19,7 +19,7 @@ export default createStore({
     userAuth: true,
     // <<< ------------------------------ Inventario ------------------------------ >>>
     articulos: [],
-    // Lista que almacena los articulos filtrados
+    // Lista que almacena los articulos filtrados por categorias
     articulosFiltrados: [],
     // El objeto articulo almacenará de manera temporal el objeto para
     // visualizarlo en el formulario
@@ -151,17 +151,40 @@ export default createStore({
       commit('ELIMINAR_ARTICULO', id)
       localStorage.setItem('articulos', JSON.stringify(state.articulos))
     },
-    establecerArticulosFiltrados({commit, state}, categoria){
-      if (categoria === 'todas'){
-        const articulosFiltrados = state.articulos
-        commit('ESTABLECER_ARTICULOS_FILTRADOS', articulosFiltrados)
-      } else {
-        const articulosFiltrados = state.articulos.filter(item =>
-          item.categoria.id == categoria.id
-        )
-        commit('ESTABLECER_ARTICULOS_FILTRADOS', articulosFiltrados)
-      }
+    establecerArticulosFiltrados({commit, state}, filtros){
+      if (filtros.categorias.length | filtros.proveedores.length){
+
+        const articulosFiltrados = []
+        const filtrosCategoria = Object.values(filtros.categorias)
+        const filtrosProveedores = Object.values(filtros.proveedores)
+
       
+        for(const element in state.articulos){
+          const articulo = state.articulos[element]
+          const categoriaArticulo = articulo.categoria.id
+          const proveedorArticulo = articulo.proveedor
+
+          if (filtrosCategoria.includes(categoriaArticulo) & 
+              filtrosProveedores.includes(proveedorArticulo)){
+            articulosFiltrados.push(articulo)
+
+          } else if (filtrosCategoria.includes(categoriaArticulo) & !filtrosProveedores.length){
+            articulosFiltrados.push(articulo)
+
+          } else if (filtrosProveedores.includes(proveedorArticulo) & !filtrosCategoria.length){
+            articulosFiltrados.push(articulo)
+          }
+        }
+    
+        commit('ESTABLECER_ARTICULOS_FILTRADOS', articulosFiltrados)
+
+      } else {
+        commit('ESTABLECER_ARTICULOS_FILTRADOS', state.articulos)        
+      }
+
+      
+      
+  
     },
     // <<< ------------------------------ Categorias ------------------------------ >>>
     // Carga los articulos almacenados en el local storage

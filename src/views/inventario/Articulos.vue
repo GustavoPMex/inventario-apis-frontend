@@ -1,5 +1,4 @@
 <template>
-
 <div class="row w-100 mx-auto mb-5 justify-content-center">
     <div class="col-12 col-lg-3  mt-4 mt-lg-2 text-center">
             <div class="dropdown">
@@ -7,21 +6,24 @@
                     Categorias
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a
-                            class="dropdown-item" 
-                            role="button"
-                            @click="configurarArticulos('todas')"
-                        >
-                            Todas
-                        </a>
-                        <a 
+                        <div 
                             v-for="(categoria, index) in categorias"
                             :key="index"
-                            class="dropdown-item" role="button"
-                            @click="configurarArticulos(categoria)"
+                            class="form-check"
                         >
-                            {{categoria.nombre}}
-                        </a>
+                            <input 
+                                class="form-check-input"
+                                type="checkbox" 
+                                :value="categoria.id" 
+                                :id="`checkCategoria${categoria.id}`"
+                                v-model="filtroCategoria"
+                                @change="configurarArticulos"
+                            >
+
+                            <label class="form-check-label" :for="`checkCategoria${categoria.id}`">
+                                {{categoria.nombre}}
+                            </label>
+                        </div>
                 </div>
             </div>
     </div>
@@ -32,9 +34,12 @@
                     Proveedores
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" role="button">Todo</a>
-                        <a class="dropdown-item" role="button">Todo</a>
-                        <a class="dropdown-item" role="button">Todo</a>
+                        <div class="form-check">
+                            <input @change="configurarArticulos"  v-model="filtroProveedor" class="form-check-input" type="checkbox" value="microsoft" id="flexCheckDefault">
+                            <label class="form-check-label" for="flexCheckDefault">
+                                Microsoft
+                            </label>
+                        </div>
                 </div>
             </div>
     </div>
@@ -66,7 +71,7 @@
                     data-whatever="@getbootstrap"
                     data-backdrop="static" data-keyboard="false"
                     role="button"
-                    @click="configurarArticulo(articulo)"
+                    @change="configurarArticulo(articulo)"
                 >
                     {{articulo.nombre}}
                 </a>
@@ -108,7 +113,7 @@
 <script>
 import ModalInventario from '../../components/inventario/ModalInventario.vue'
 import ModalArticulo from '../../components/inventario/ModalArticulo.vue'
-import  {computed, onMounted} from 'vue'
+import  {computed, onMounted, ref} from 'vue'
 import { useStore } from 'vuex'
 
 export default {
@@ -118,7 +123,21 @@ export default {
     setup(){
 
         const store = useStore()
-        
+
+        // Filtros categorias
+        const filtroCategoria = ref([])
+
+        // Filtros proveedores
+        const filtroProveedor = ref([])
+
+        //  Filtros
+        const filtros = computed(() => {
+            return {
+                "categorias": filtroCategoria.value, 
+                "proveedores": filtroProveedor.value
+            }
+        })
+
         // Obtenemos los articulos almacenados actualmente en el state de vuex
         const articulos = computed(() => {
             return store.getters.getArticulosFiltrados
@@ -135,8 +154,8 @@ export default {
         }
         
 
-        const configurarArticulos = (categoria) =>{
-            store.dispatch('establecerArticulosFiltrados', categoria)
+        const configurarArticulos = () =>{
+            store.dispatch('establecerArticulosFiltrados', filtros.value)
         }
 
         // Configuramos el articulo actual para usarlo en el modal
@@ -167,11 +186,11 @@ export default {
         // Cargamos el inventario que tenemos almacenado
         onMounted(async() => {
             await cargarInventario()
-            await configurarArticulos('todas')
+            await configurarArticulos({categorias: [], proveedores: []})
         })
 
         return {
-            articulos, categorias,
+            filtroCategoria, filtroProveedor, filtros, articulos, categorias,
             formatoPrecio, configurarArticulos, configurarArticulo,
             eliminarArti
         }
