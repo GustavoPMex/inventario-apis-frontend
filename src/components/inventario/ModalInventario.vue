@@ -84,5 +84,10 @@ export default {
             limpiarInputs, editarArticulo
         }
     },
+    watch: {
+        $route (to, from){
+            this.limpiarInputs()
+        }
+    }
 }
 </script>

@@ -121,6 +121,9 @@ export default {
 
     return {authorization, redes, redesActuales}
 
+  },
+  created(){
+    window.scrollTo(0, 0);
   }
   
 }

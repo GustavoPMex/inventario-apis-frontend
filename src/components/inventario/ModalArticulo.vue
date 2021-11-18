@@ -30,7 +30,7 @@
 
                 <div class="mb-4">
                     <p class="detailArticuloTitle"><strong>Proveedor</strong></p>
-                    <p class="detailArticulo">{{articulo.proveedor}}</p>
+                    <p class="detailArticulo">{{articulo.proveedor.nombre}}</p>
                 </div>
 
                 <div class="mb-4">

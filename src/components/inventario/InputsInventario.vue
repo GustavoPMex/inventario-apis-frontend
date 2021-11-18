@@ -1,6 +1,31 @@
 <template>
 
 <div class="form-group">
+    <label class="label-form">Proveedor</label>
+    <router-link 
+        v-if="disableBtnAdd"
+        title="Agregar categoria"
+        :to="{name: 'ProveedoresAgregar'}"
+    >
+        <i class="fas fa-plus-square icon-add-cat"></i>
+    </router-link>
+    
+    <select
+        class="form-select"
+        v-model="articulo.proveedor"
+    >
+        <option :value="''" disabled selected>Seleccione un proveedor</option>
+        <option 
+            v-for="(proveedor, index) in proveedores"
+            :key="index"
+            :value="proveedor"
+        > {{proveedor.nombre}}
+        </option>
+
+    </select>
+</div>
+
+<div class="form-group">
     <label class="label-form">Nombre</label>
     <input 
         class='form-control' 
@@ -71,17 +96,7 @@
     </textarea>
 </div>
 
-<div class="form-group">
-    <label class="label-form">Proveedor</label>
-    <select
-        class="form-select"
-        v-model="articulo.proveedor"
-    >
-        <option :value="''" disabled selected>Seleccione un proveedor</option>
-        <option value="merida">Merida</option>
-        <option value="microsoft">Microsot</option>
-    </select>
-</div>
+
 
 <div class="form-group">
     <label class="label-form">Precio</label>
@@ -133,18 +148,28 @@ export default {
             return store.getters.getCategorias
         })
 
+        const proveedores = computed(() =>{
+            return store.getters.getProveedores
+        })
+
+        const cargarProveedores = () => {
+            store.dispatch('establecerProveedores')
+        }
+
         const cargarCategorias = () =>{
             store.dispatch('establecerCategorias')
         }
 
+
         onMounted(async() => {
+            await cargarProveedores()
             await cargarCategorias()
         })
 
 
         return {
-            categorias, disableCatAct, disableBtnAdd,
-            cargarCategorias
+            categorias, disableCatAct, disableBtnAdd, proveedores,
+            cargarCategorias, cargarProveedores
         }
     },
     components: {

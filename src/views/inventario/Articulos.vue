@@ -1,5 +1,5 @@
 <template>
-<div class="row w-100 mx-auto mb-5 justify-content-center">
+<div v-if="articulosAlmacenados.length" class="row w-100 mx-auto mb-5 justify-content-center">
     <div class="col-12 col-lg-3  mt-4 mt-lg-2 text-center">
             <div class="dropdown">
                 <button class="btn btn-secondary dropdown-toggle" type="button" id="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -34,10 +34,22 @@
                     Proveedores
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <div class="form-check">
-                            <input @change="configurarArticulos"  v-model="filtroProveedor" class="form-check-input" type="checkbox" value="microsoft" id="flexCheckDefault">
-                            <label class="form-check-label" for="flexCheckDefault">
-                                Microsoft
+                        <div 
+                            v-for="(proveedor, index) in proveedores"
+                            :key="index"
+                            class="form-check"
+                        >
+                            <input 
+                                class="form-check-input"
+                                type="checkbox" 
+                                :value="proveedor.id" 
+                                :id="`checkProveedor${proveedor.id}`"
+                                v-model="filtroProveedor"
+                                @change="configurarArticulos"
+                            >
+
+                            <label class="form-check-label" :for="`checkProveedor${proveedor.id}`">
+                                {{proveedor.nombre}}
                             </label>
                         </div>
                 </div>
@@ -65,21 +77,21 @@
             <tr>
             <td class="table-wordbreak">
                 <a
-                    class="nameArticuloDetail"
+                    class="nameArticuloDetail cuadro-tab-size"
                     data-toggle="modal" 
                     data-target="#articuloDetalles" 
                     data-whatever="@getbootstrap"
                     data-backdrop="static" data-keyboard="false"
                     role="button"
-                    @change="configurarArticulo(articulo)"
+                    @click="configurarArticulo(articulo)"
                 >
                     {{articulo.nombre}}
                 </a>
                 <ModalArticulo/>
             </td>
             <td>{{articulo.categoria.nombre}}</td>
-            <td class="table-wordbreak">{{articulo.proveedor}}</td> 
-            <td>$ {{ formatoPrecio(articulo.precio) }}</td>
+            <td class="table-wordbreak">{{articulo.proveedor.nombre}}</td> 
+            <td class="cuadro-tab-size">$ {{ formatoPrecio(articulo.precio) }}</td>
             <td>{{articulo.cantidad}}</td>
             <td>
                 <a  
@@ -138,6 +150,10 @@ export default {
             }
         })
 
+        const articulosAlmacenados = computed(() =>{
+            return store.getters.getArticulos
+        })
+
         // Obtenemos los articulos almacenados actualmente en el state de vuex
         const articulos = computed(() => {
             return store.getters.getArticulosFiltrados
@@ -146,6 +162,10 @@ export default {
         //  Obtenemos las categorias
         const categorias = computed(() => {
             return store.getters.getCategorias
+        })
+
+        const proveedores = computed(() =>{
+            return store.getters.getProveedores
         })
 
         //  Metodo para convertir el precio a un formato estandar
@@ -191,6 +211,7 @@ export default {
 
         return {
             filtroCategoria, filtroProveedor, filtros, articulos, categorias,
+            articulosAlmacenados, proveedores,
             formatoPrecio, configurarArticulos, configurarArticulo,
             eliminarArti
         }

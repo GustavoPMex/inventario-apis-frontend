@@ -22,12 +22,19 @@
                 <li class="nav-item">
                     <router-link 
                         class="nav-link js-scroll-trigger" 
-
-                    :to="{name: 'InventarioArticulos'}" >
+                        :to="{name: 'InventarioArticulos'}" >
                         Inventario
                     </router-link >
                 </li>
 
+                <li class="nav-item">
+                    <router-link
+                    class="nav-link js-scroll-trigger" 
+                        :to="{name: 'ProveedoresList'}">
+                        Proveedores
+                    </router-link>
+                </li>
+                
                 <li class="nav-item">
                     <a class="nav-link js-scroll-trigger" >
                         Taller
@@ -46,11 +53,6 @@
                     </a>
                 </li>
 
-                <li class="nav-item">
-                    <a class="nav-link js-scroll-trigger" >
-                        Proveedores
-                    </a>
-                </li>
 
                 <li class="nav-item">
                     <a class="nav-link js-scroll-trigger" >

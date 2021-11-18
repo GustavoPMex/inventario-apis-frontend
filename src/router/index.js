@@ -23,6 +23,24 @@ const routes = [
         component: () => import(/* webpackChunkName: "agregar" */ '../views/inventario/Agregar.vue')
       }
     ]
+  },
+  // -- Proveedores --
+  {
+    path: '/proveedores',
+    component: () => import(/* webpackChunkName: "proveedores" */ '../views/proveedores/BaseProveedores.vue'),
+    children: [
+      {
+        path: '',
+        name: 'ProveedoresList',
+        component: () => import(/* webpackChunkName: "proveedores" */ '../views/proveedores/Proveedores.vue'),
+      },
+      {
+        path: 'agregar',
+        name: 'ProveedoresAgregar',
+        component: () => import(/* webpackChunkName: "proveedores" */ '../views/proveedores/Agregar.vue'),
+      }
+    ]
+
   }
 ]
 

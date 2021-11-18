@@ -3,11 +3,10 @@
         <div class="resume-section-content">
             
             <h1 class="mb-5 h1-resume-section">
-                Inventario
+                Proveedores
             </h1>
 
-            <SubMenuInventario />
-
+            <SubMenuProveedores />
             <!-- Routes -->
             <router-view></router-view>
             
@@ -17,15 +16,15 @@
 </template>
 
 <script>
-import SubMenuInventario from '../../components/inventario/SubMenuInventario.vue'
-
+import { onMounted } from '@vue/runtime-core'
+import { useStore } from 'vuex'
+import SubMenuProveedores from '../../components/proveedores/SubMenuProveedores.vue'
 export default {
     components: {
-        SubMenuInventario
+        SubMenuProveedores,
     },
     created(){
         window.scrollTo(0, 0);
     }
-
 }
 </script>

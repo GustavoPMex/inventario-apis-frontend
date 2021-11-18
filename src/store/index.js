@@ -19,7 +19,7 @@ export default createStore({
     userAuth: true,
     // <<< ------------------------------ Inventario ------------------------------ >>>
     articulos: [],
-    // Lista que almacena los articulos filtrados por categorias
+    // Lista que almacena los articulos filtrados por categorias, ésta lista nos provee los elementos en las vistas
     articulosFiltrados: [],
     // El objeto articulo almacenará de manera temporal el objeto para
     // visualizarlo en el formulario
@@ -39,7 +39,21 @@ export default createStore({
     categoria: {
       id: 0,
       nombre: ''
-    }
+    },
+    // <<< ------------------------------ Proveedores ------------------------------ >>>
+    // Lista de proveedores almacenados
+    proveedores: [],
+    // Proveedor que almacenaremos de manera temporal
+    proveedor: {
+      id: '',
+      nombre: '',
+      direccion: '',
+      telefono: '',
+      correo: '',
+      notaAdicional: '',
+    },
+    // Lista de proveedores filtrados, ésta lista nos provee los elementos en las vistas
+    proveedoresFiltrados: []
   },
   mutations: {
     // <<< ------------------------------ Redes sociales ------------------------------ >>>
@@ -115,6 +129,44 @@ export default createStore({
     ELIMINAR_CATEGORIA(state, payload){
       state.categorias = state.categorias.filter(item => item.id !== payload)
       
+    },
+    // <<< ------------------------------ Proveedores ------------------------------ >>>
+    // Establecemos la lista de proveedores
+    ESTABLECER_PROVEEDORES(state, payload){
+      state.proveedores = payload
+    },
+    // Establecemos un proveedores temporal para visualizarlo en los inputs
+    ESTABLECER_PROVEEDOR_TEMPORAL(state, payload){
+      state.proveedor = payload
+    },
+    // Agregamos un nuevo proveedores a la lista
+    NUEVO_PROVEEDOR(state, payload){
+      state.proveedores.push(payload)
+    },
+    // Actualizamos un proveedor, actualizamos tanto en proveedores cómo en las filtraciones
+    ACTUALIZAR_PROVEEDOR(state, payload){
+      state.proveedores = state.proveedores.map(item => item.id === payload.id ? payload : item)
+      state.proveedoresFiltrados = state.proveedoresFiltrados.map(item => item.id === payload.id ? payload : item)
+    },
+    // Dejamos vacio el proveedor temporal
+    ELIMINAR_PROVEEDOR_TEMPORAL(state){
+      state.proveedor = {
+        id: '',
+        nombre: '',
+        direccion: '',
+        telefono: '',
+        correo: '',
+        notaAdicional: '',
+      }
+    },
+    // Eliminamos al proveedor de la lista actual, eliminamos tanto en proveedores cómo en las filtraciones
+    ELIMINAR_PROVEEDOR(state, payload){
+      state.proveedores = state.proveedores.filter(item => item.id != payload)
+      state.proveedoresFiltrados = state.proveedoresFiltrados.filter(item => item.id != payload)
+    },
+    // Actualizamos la lista de proveedores filtrados con los de la busqueda
+    BUSQUEDA_PROVEEDOR(state, payload){
+      state.proveedoresFiltrados = payload
     }
   },
   actions: {
@@ -162,29 +214,21 @@ export default createStore({
         for(const element in state.articulos){
           const articulo = state.articulos[element]
           const categoriaArticulo = articulo.categoria.id
-          const proveedorArticulo = articulo.proveedor
+          const proveedorArticulo = articulo.proveedor.id
 
           if (filtrosCategoria.includes(categoriaArticulo) & 
               filtrosProveedores.includes(proveedorArticulo)){
             articulosFiltrados.push(articulo)
-
           } else if (filtrosCategoria.includes(categoriaArticulo) & !filtrosProveedores.length){
             articulosFiltrados.push(articulo)
-
           } else if (filtrosProveedores.includes(proveedorArticulo) & !filtrosCategoria.length){
             articulosFiltrados.push(articulo)
           }
         }
-    
         commit('ESTABLECER_ARTICULOS_FILTRADOS', articulosFiltrados)
-
       } else {
         commit('ESTABLECER_ARTICULOS_FILTRADOS', state.articulos)        
       }
-
-      
-      
-  
     },
     // <<< ------------------------------ Categorias ------------------------------ >>>
     // Carga los articulos almacenados en el local storage
@@ -202,7 +246,6 @@ export default createStore({
       nuevaCat.id = Math.floor((Math.random() * 1000) + 1)
       commit('NUEVA_CATEGORIA', nuevaCat)
       localStorage.setItem('categorias', JSON.stringify(state.categorias))
-
       state.categoria.id = 0
       state.categoria.nombre = ''
     },
@@ -249,10 +292,58 @@ export default createStore({
         twitter: '', 
         instagram: ''
       })
+    },
+    // <<< ------------------------------ Proveedores ------------------------------ >>>
+    establecerProveedores({commit}){
+      if(localStorage.getItem('proveedores')){
+        const proveedores = JSON.parse(localStorage.getItem('proveedores'))
+        commit('ESTABLECER_PROVEEDORES', proveedores)
+      } else {
+        localStorage.setItem('proveedores', JSON.stringify([]))
+      }
+    },
+    establecerProveedorTemporal({commit}, payload){
+      commit('ESTABLECER_PROVEEDOR_TEMPORAL', payload)
+    },
+    // Agregamos una nueva categoria, a diferencia a los otros actions en donde
+    // se agrega un elemento, en éste caso lo tomamos del store, sin necesidad
+    // de pasarlo desde el componente o vista
+    nuevoProveedor({commit, state}){
+      const nuevoProvee = JSON.parse(JSON.stringify(state.proveedor))
+      nuevoProvee.id = Math.floor((Math.random() * 1000) + 1)
+      commit('NUEVO_PROVEEDOR', nuevoProvee)
+      localStorage.setItem('proveedores', JSON.stringify(state.proveedores))
+      
+    },
+    // Actualizamos el proveedor que solicitemos, pero a diferencias de los otros actions
+    // lo tomamos directamente del store, sin pasarlo como argumento
+    actualizarProveedor({commit, state}){
+      const proveedorActualizado = JSON.parse(JSON.stringify(state.proveedor))
+      commit('ACTUALIZAR_PROVEEDOR', proveedorActualizado)
+      localStorage.setItem('proveedores', JSON.stringify(state.proveedores))
+    },
+    // Eliminamos el proveedor temporal almacenado
+    eliminarProveedorTemporal({commit}){
+      commit('ELIMINAR_PROVEEDOR_TEMPORAL')
+    },
+    // Eliminamos a un proveedor
+    eliminarProveedor({commit, state}, id){
+      commit('ELIMINAR_PROVEEDOR', id)
+      localStorage.setItem('proveedores', JSON.stringify(state.proveedores))
+    },
+    // Realizamos una busqueda con lo que el usuario nos provee
+    busquedaProveedor({commit, state}, busqueda){
+      if (busqueda){
+        const listaFiltrados = state.proveedores.filter(item => 
+          item.nombre.toLowerCase().startsWith(busqueda.toLowerCase())
+        )
+        console.log(listaFiltrados)
+        commit('BUSQUEDA_PROVEEDOR', listaFiltrados)
+      } else {
+        commit('BUSQUEDA_PROVEEDOR', state.proveedores)
+      }
+      
     }
-
-  },
-  modules: {
   },
   getters:{
     // <<< ------------------------------ Redes sociales ------------------------------ >>>
@@ -266,7 +357,6 @@ export default createStore({
     getAuth(state){
       return state.userAuth
     },
-
     // <<< ------------------------------ Articulos ------------------------------ >>>
     getArticulos(state){
       return state.articulos
@@ -283,6 +373,18 @@ export default createStore({
     },
     getCategoria(state){
       return state.categoria
+    },
+    // <<< ------------------------------ Proveedores ------------------------------ >>>
+    getProveedores(state){
+      return state.proveedores
+    },
+    getProveedor(state){
+      return state.proveedor
+    },
+    getProveedoresFiltrados(state){
+      return state.proveedoresFiltrados
     }
-  }
+  },
+  modules: {
+  },
 })

@@ -163,13 +163,14 @@ sup {
 }
 
 a {
-  color: #bd5d38;
+  color: white;
   text-decoration: none;
   background-color: transparent;
+  transition: .3s;
 }
 a:hover {
-  color: #824027;
-  text-decoration: underline;
+  color: #bd5d38;
+  text-decoration: none;
 }
 
 a:not([href]) {
@@ -1937,6 +1938,7 @@ pre code {
 .table-dark {
   color: #fff;
   background-color: #343a40;
+  
 }
 .table-dark th,
 .table-dark td,
@@ -10665,4 +10667,9 @@ select option{
 .table-overflow{
   overflow: auto !important;
   max-height: 600px !important;
+  border-radius: 10px !important ;
+}
+
+.cuadro-tab-size{
+  width: 7em !important;
 }
