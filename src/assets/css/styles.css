@@ -10673,3 +10673,8 @@ select option{
 .cuadro-tab-size{
   width: 7em !important;
 }
+
+body.registro{
+  padding-left: 0rem;
+}
+

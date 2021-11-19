@@ -1,5 +1,9 @@
 <template>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top" id="sideNav">
+
+    <nav 
+        class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top" 
+        id="sideNav"
+    >
         <a class="navbar-brand js-scroll-trigger" >
             <span class="d-block d-lg-none">
                 Adminv
@@ -61,9 +65,12 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link js-scroll-trigger" >
+                    <router-link 
+                        class="nav-link js-scroll-trigger" 
+                        :to="{name: 'PersonalList'}"
+                    >
                         Personal
-                    </a>
+                    </router-link>
                 </li>
 
                 <li class="nav-item">
@@ -78,10 +85,8 @@
 
 <script>
 
+
 export default {
-    setup() {
-        
-    }
 
 }
 </script>

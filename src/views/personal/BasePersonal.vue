@@ -3,10 +3,8 @@
         <div class="resume-section-content">
             
             <h1 class="mb-5 h1-resume-section">
-                Proveedores
+                Personal
             </h1>
-
-            <SubMenuProveedores />
             <!-- Routes -->
             <router-view></router-view>
             
@@ -16,10 +14,10 @@
 </template>
 
 <script>
-import SubMenuProveedores from '../../components/proveedores/SubMenuProveedores.vue'
+
+
 export default {
     components: {
-        SubMenuProveedores,
     },
     created(){
         window.scrollTo(0, 0);

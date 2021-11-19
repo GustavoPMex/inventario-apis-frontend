@@ -10,37 +10,64 @@ const routes = [
   // -- Inventario --
   {
     path: '/inventario',
-    component: () => import(/* webpackChunkName: "inventario" */ '../views/inventario/BaseInventario.vue'),
+    component: () => import('../views/inventario/BaseInventario.vue'),
     children: [
       {
         path: '',
         name: 'InventarioArticulos',
-        component: () => import(/* webpackChunkName: "inventario" */ '../views/inventario/Articulos.vue'),
+        component: () => import('../views/inventario/Articulos.vue'),
       },
       {
         path: 'agregar',
         name: 'InventarioAgregar',
-        component: () => import(/* webpackChunkName: "agregar" */ '../views/inventario/Agregar.vue')
+        component: () => import('../views/inventario/Agregar.vue')
       }
     ]
   },
   // -- Proveedores --
   {
     path: '/proveedores',
-    component: () => import(/* webpackChunkName: "proveedores" */ '../views/proveedores/BaseProveedores.vue'),
+    component: () => import('../views/proveedores/BaseProveedores.vue'),
     children: [
       {
         path: '',
         name: 'ProveedoresList',
-        component: () => import(/* webpackChunkName: "proveedores" */ '../views/proveedores/Proveedores.vue'),
+        component: () => import('../views/proveedores/Proveedores.vue'),
       },
       {
         path: 'agregar',
         name: 'ProveedoresAgregar',
-        component: () => import(/* webpackChunkName: "proveedores" */ '../views/proveedores/Agregar.vue'),
+        component: () => import('../views/proveedores/Agregar.vue'),
       }
     ]
 
+  },
+  {
+    path: '/personal',
+    component: () => import('../views/personal/BasePersonal.vue'),
+    children: [
+      {
+        path: '',
+        name: 'PersonalList',
+        component: () => import('../views/personal/Personal.vue')
+      },
+    ]
+  },
+  {
+    path: '/registro',
+    component: () => import('../views/registro/BaseRegistro.vue'),
+    children: [
+      {
+        path: '',
+        name: 'Login',
+        component: () => import('../views/registro/Login.vue')
+      },
+      {
+        path: 'signup',
+        name: 'Signup',
+        component: () => import('../views/registro/Signup.vue')
+      }
+    ]
   }
 ]
 
