@@ -2,6 +2,8 @@ import { createStore, storeKey } from 'vuex'
 
 export default createStore({
   state: {
+    // <<< ------------------------------ Layout ------------------------------ >>>
+    layout: 'principal-layout',
     // <<< ------------------------------ Inicio ------------------------------ >>>
     redesSociales: {
       facebook: '',
@@ -56,6 +58,10 @@ export default createStore({
     proveedoresFiltrados: []
   },
   mutations: {
+    // <<< ------------------------------ Layout ------------------------------ >>>
+    SET_LAYOUT(state, newLayout){
+      state.layout = newLayout
+    },
     // <<< ------------------------------ Redes sociales ------------------------------ >>>
     // Establecemos las redes sociales que actualmente tengamos almacenadas
     // En el local storage
@@ -170,6 +176,9 @@ export default createStore({
     }
   },
   actions: {
+    setLayout({commit}, newLayout){
+      commit('SET_LAYOUT', newLayout)
+    },
     // <<< ------------------------------ Articulos ------------------------------ >>>
     // Carga todos los articulos que tengamos almacenados actualmente
     establecerArticulos({commit}){
@@ -346,6 +355,9 @@ export default createStore({
     }
   },
   getters:{
+    getLayout(state){
+      return state.layout
+    },
     // <<< ------------------------------ Redes sociales ------------------------------ >>>
     getRedesSociales(state){
       return state.redesSociales

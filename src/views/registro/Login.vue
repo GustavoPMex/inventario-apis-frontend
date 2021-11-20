@@ -1,10 +1,14 @@
 <template>
-    <p>Login</p>
+    <LoginForm />
 </template>
 
 <script>
-export default {
+import LoginForm from '../../components/registro/LoginForm.vue'
 
+export default {
+    components: {
+        LoginForm
+    }
 }
 </script>
 

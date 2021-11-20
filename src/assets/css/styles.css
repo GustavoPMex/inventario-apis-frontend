@@ -10674,7 +10674,11 @@ select option{
   width: 7em !important;
 }
 
-body.registro{
-  padding-left: 0rem;
+body.registrobody {
+  padding-left: 0rem !important;
 }
 
+body.homebody {
+  padding-top: 0;
+  padding-left: 17rem;
+}

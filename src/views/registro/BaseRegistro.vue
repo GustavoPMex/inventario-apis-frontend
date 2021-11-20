@@ -1,12 +1,23 @@
 <template>
-    <p>Si</p>
     <router-view> </router-view>
 </template>
 
 <script>
+import { useStore } from 'vuex'
 export default {
-    beforeCreate: function() {
-        document.body.className = 'registro'            
+    setup() {
+        const store = useStore()
+
+        const establecerLayout = () => {
+            store.dispatch('setLayout', 'login-layout')
+        }
+
+        return {
+            establecerLayout
+        }
+    },
+    mounted(){
+        this.establecerLayout()
     }
 }
 </script>

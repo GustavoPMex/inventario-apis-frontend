@@ -18,6 +18,7 @@
 <script>
 import SubMenuProveedores from '../../components/proveedores/SubMenuProveedores.vue'
 export default {
+    
     components: {
         SubMenuProveedores,
     },
