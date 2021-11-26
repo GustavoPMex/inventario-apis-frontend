@@ -8,7 +8,7 @@
                     class="form-control" 
                     placeholder="Ingresa proveedor" 
                     name="search"
-                    v-model="busqueda"
+                    v-model.trim="busqueda"
                     
                 >
                 <div class="input-group-append">
@@ -89,7 +89,9 @@
     
 </div>
 
-<p v-else class="p-vacia">Sin Proveedores</p>
+<div v-else class="row w-100 div-vacio">
+    <p class="p-vacia">Sin Proveedores</p>
+</div>
 
 </template>
 

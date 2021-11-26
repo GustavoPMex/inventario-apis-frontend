@@ -1,6 +1,7 @@
 <template>
 
     <nav 
+        v-if="autorizacion"
         class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top" 
         id="sideNav"
     >
@@ -40,28 +41,20 @@
                 </li>
                 
                 <li class="nav-item">
-                    <a class="nav-link js-scroll-trigger" >
+                    <router-link 
+                    class="nav-link js-scroll-trigger" 
+                        :to="{name: 'TallerPendientes'}">
                         Taller
-                    </a>
+                    </router-link>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link js-scroll-trigger" >
-                        Servicios
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link js-scroll-trigger" >
-                        Garantias
-                    </a>
-                </li>
-
-
-                <li class="nav-item">
-                    <a class="nav-link js-scroll-trigger" >
+                    <router-link 
+                        class="nav-link js-scroll-trigger" 
+                        :to="{name: 'ClientesList'}"
+                    >
                         Clientes
-                    </a>
+                    </router-link>
                 </li>
 
                 <li class="nav-item">
@@ -75,6 +68,12 @@
 
                 <li class="nav-item">
                     <a class="nav-link js-scroll-trigger" >
+                        Servicios
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link js-scroll-trigger" >
                         Perfil actual
                     </a>
                 </li>
@@ -84,9 +83,21 @@
 </template>
 
 <script>
-
-
+import { computed } from '@vue/reactivity'
+import { useStore } from 'vuex'
 export default {
+    setup() {
+        const store = useStore()
+
+        const autorizacion = computed(() =>{
+            // const layout = store.getters.getLayout
+            // return layout === 'principal-layout' ? true : false
+            return store.getters.getAuth
+        })
+        return {
+            autorizacion
+        }
+    }
 
 }
 </script>

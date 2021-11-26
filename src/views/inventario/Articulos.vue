@@ -118,7 +118,9 @@
     
 </div>
 
-<p v-else class="p-vacia">Sin articulos</p>
+<div v-else class="row w-100 div-vacio">
+    <p class="p-vacia">Sin articulos</p>
+</div>
 
 </template>
 

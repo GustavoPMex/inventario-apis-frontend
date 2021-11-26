@@ -7,6 +7,5 @@ export default {
     beforeCreate(){
         document.body.className = 'registrobody';
     },
-    
 }
 </script>

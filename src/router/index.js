@@ -68,6 +68,43 @@ const routes = [
         component: () => import('../views/registro/Signup.vue')
       }
     ]
+  },
+  {
+    path: '/taller',
+    component: () => import('../views/taller/BaseTaller.vue'),
+    children: [
+      {
+        path: '',
+        name: 'TallerPendientes',
+        component: () => import('../views/taller/Pendientes.vue')
+      },
+      {
+        path: 'terminados',
+        name: 'TallerTerminados',
+        component: () => import('../views/taller/Terminados.vue')
+      },
+      {
+        path: 'agregar',
+        name: 'TallerAgregar',
+        component: () => import('../views/taller/Agregar.vue')
+      }
+    ]
+  },
+  {
+    path: '/clientes',
+    component: () => import('../views/clientes/BaseClientes.vue'),
+    children: [
+      {
+        path: '',
+        name: 'ClientesList',
+        component: () => import('../views/clientes/Clientes.vue')
+      },
+      {
+        path: 'agregar',
+        name: 'ClientesAgregar',
+        component: () => import('../views/clientes/Agregar.vue')
+      }
+    ]
   }
 ]
 

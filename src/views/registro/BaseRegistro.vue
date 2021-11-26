@@ -3,6 +3,7 @@
 </template>
 
 <script>
+import { onMounted } from '@vue/runtime-core'
 import { useStore } from 'vuex'
 export default {
     setup() {

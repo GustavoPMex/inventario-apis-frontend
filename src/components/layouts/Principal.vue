@@ -16,7 +16,7 @@ export default {
         }
 
         return {
-            establecerLayout
+            establecerLayout,
         }
     },
     components: {

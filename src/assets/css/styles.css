@@ -10432,7 +10432,7 @@ a.active.router-link-exact-active.list-submenu{
 
 .p-registration{
   font-size: 1.3em;
-  margin-bottom: 2em;
+  margin-bottom: 1em;
 }
 
 .menu-select{
@@ -10557,9 +10557,13 @@ input[type="checkbox"]{
 }
 
 .p-vacia{
-  font-size: 1.5em;
+  font-size: 2em;
+  margin: 0 auto;
 }
 
+.div-vacio{
+  margin: 5em auto;
+}
 
 @media screen and (max-width: 500px) {
   .content-form{
@@ -10682,3 +10686,5 @@ body.homebody {
   padding-top: 0;
   padding-left: 17rem;
 }
+
+

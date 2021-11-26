@@ -45,6 +45,8 @@ export default createStore({
     // <<< ------------------------------ Proveedores ------------------------------ >>>
     // Lista de proveedores almacenados
     proveedores: [],
+    // Lista de proveedores filtrados, ésta lista nos provee los elementos en las vistas
+    proveedoresFiltrados: [],
     // Proveedor que almacenaremos de manera temporal
     proveedor: {
       id: '',
@@ -54,8 +56,27 @@ export default createStore({
       correo: '',
       notaAdicional: '',
     },
-    // Lista de proveedores filtrados, ésta lista nos provee los elementos en las vistas
-    proveedoresFiltrados: []
+    // <<< ------------------------------ Clientes ------------------------------ >>>
+    clientes: [],
+    clientesFiltrados: [],
+    cliente: {
+      id: 0,
+      nombre: '',
+      descripcion: '',
+      telefono: 0,
+      correo: ''
+    },
+    // <<< ------------------------------ Personal ------------------------------ >>>
+    personal: [],
+    // Usamos éste objeto para poder guardar los datos del usuario de manera temporal
+    personalFiltrados: [],
+    registroUsuario: {
+      id: 0,
+      usuario: '',
+      email: '',
+      contrasenaUno: '',
+      contrasenaDos: '',
+    },
   },
   mutations: {
     // <<< ------------------------------ Layout ------------------------------ >>>
@@ -173,7 +194,59 @@ export default createStore({
     // Actualizamos la lista de proveedores filtrados con los de la busqueda
     BUSQUEDA_PROVEEDOR(state, payload){
       state.proveedoresFiltrados = payload
+    },
+     // <<< ------------------------------ Clientes ------------------------------ >>>
+    ESTABLECER_CLIENTES(state, payload){
+      state.clientes = payload
+    },
+    ESTABLECER_CLIENTE_TEMPORAL(state, payload){
+      state.cliente = payload
+    },
+    NUEVO_CLIENTE(state, payload){
+      state.clientes.push(payload)
+    },
+    ACTUALIZAR_CLIENTE(state, payload){
+      state.clientes = state.clientes.map(item => item.id === payload.id ? payload : item)
+    },
+    ELIMINAR_CLIENTE_TEMPORAL(state){
+      state.cliente = {
+          id: 0,
+          nombre: '',
+          descripcion: '',
+          telefono: 0,
+          correo: ''
+      }
+    },
+    ELIMINAR_CLIENTE(state, payload){
+      state.clientes = state.clientes.filter(item => item.id != payload)
+    },
+    BUSQUEDA_CLIENTE(state, payload){
+      state.clientesFiltrados = payload
+    },
+    // <<< ------------------------------ Personal ------------------------------ >>>
+    // Cargar el personal que tenemos almacenados
+    ESTABLECER_PERSONAL(state, payload){
+      state.personal = payload
+    },
+    NUEVO_USUARIO(state, payload){
+      state.personal.push(payload)
+    },
+    ELIMINAR_USUARIO_TEMPORAL(state){
+      state.registroUsuario = {
+        id: 0,
+        usuario: '',
+        email: '',
+        contrasenaUno: '',
+        contrasenaDos: '',
+      }
+    },
+    ELIMINAR_USUARIO(state, payload){
+      state.personal = state.personal.filter(item => item.id != payload)
+    },
+    BUSQUEDA_PERSONAL(state, payload){
+      state.personalFiltrados = payload
     }
+
   },
   actions: {
     setLayout({commit}, newLayout){
@@ -346,12 +419,82 @@ export default createStore({
         const listaFiltrados = state.proveedores.filter(item => 
           item.nombre.toLowerCase().startsWith(busqueda.toLowerCase())
         )
-        console.log(listaFiltrados)
         commit('BUSQUEDA_PROVEEDOR', listaFiltrados)
       } else {
         commit('BUSQUEDA_PROVEEDOR', state.proveedores)
       }
+    },
+    // <<< ------------------------------ Clientes ------------------------------ >>>
+    establecerClientes({commit}){
+      if (localStorage.getItem('clientes')) {
+        const clientes = JSON.parse(localStorage.getItem('clientes'))
+        commit('ESTABLECER_CLIENTES', clientes)
+      } else {
+        localStorage.setItem('clientes', JSON.stringify([]))
+      }
+    },
+    busquedaCliente({commit, state}, busqueda){
+      if(busqueda){
+        const listaClientes = state.clientes.filter(item =>
+          item.nombre.toLowerCase().startsWith(busqueda.toLowerCase())
+        )
+        commit('BUSQUEDA_CLIENTE', listaClientes)
+      } else {
+        commit('BUSQUEDA_CLIENTE', state.clientes)
+      }
       
+    },
+    establecerClienteTemporal({commit}, payload){
+      commit('ESTABLECER_CLIENTE_TEMPORAL', payload)
+    },
+    nuevoCliente({commit, state}){
+      state.cliente.id = Math.floor((Math.random() * 1000) + 1)
+      commit('NUEVO_CLIENTE', state.cliente)
+      localStorage.setItem('clientes', JSON.stringify(state.clientes))
+    },
+    actualizarCliente({commit, state}){
+      const clienteActual = JSON.parse(JSON.stringify(state.cliente))
+      commit('ACTUALIZAR_CLIENTE', clienteActual)
+      localStorage.setItem('clientes', JSON.stringify(state.clientes))
+    },
+    eliminarClienteTemporal({commit}){
+      commit('ELIMINAR_CLIENTE_TEMPORAL')
+    },
+    eliminarCliente({commit, state}, id){
+      commit('ELIMINAR_CLIENTE', id)
+      localStorage.setItem('clientes', JSON.stringify(state.clientes))
+    },
+    // <<< ------------------------------ Personal ------------------------------ >>>
+    establecerPersonal({commit}){
+      if(localStorage.getItem('personal')) {
+        const personal = JSON.parse(localStorage.getItem('personal'))
+        commit('ESTABLECER_PERSONAL', personal)
+      } else {
+        localStorage.setItem('personal', JSON.stringify([]))
+      }
+    },
+    nuevoUsuario({commit, state}){
+      state.registroUsuario.id = Math.floor((Math.random() * 1000) + 1)
+      commit('NUEVO_USUARIO', state.registroUsuario)
+      localStorage.setItem('personal', JSON.stringify(state.personal))
+    },
+    eliminarUsuarioTemporal({commit}){
+      commit('ELIMINAR_USUARIO_TEMPORAL')
+    },
+    eliminarTemporal({commit, state}, id){
+      commit('ELIMINAR_USUARIO', id)
+      localStorage.setItem('personal', JSON.stringify(state.personal))
+    },
+    busquedaPersonal({commit, state}, busqueda){
+      if(busqueda){
+        const listaFiltrados = state.personal.filter(item => 
+          item.usuario.toLowerCase().startsWith(busqueda.toLowerCase())
+        )
+        commit('BUSQUEDA_PERSONAL', listaFiltrados)
+
+      } else {
+        commit('BUSQUEDA_PERSONAL', state.personal)
+      }
     }
   },
   getters:{
@@ -395,6 +538,26 @@ export default createStore({
     },
     getProveedoresFiltrados(state){
       return state.proveedoresFiltrados
+    },
+    // <<< ------------------------------ Clientes ------------------------------ >>>
+    getClientes(state){
+      return state.clientes
+    },
+    getClientesFiltrados(state){
+      return state.clientesFiltrados
+    },
+    getCliente(state){
+      return state.cliente
+    },
+    // <<< ------------------------------ Personal ------------------------------ >>>
+    getPersonal(state){
+      return state.personal
+    },
+    getPersonalFiltrados(state){
+      return state.personalFiltrados
+    },
+    getUsuario(state){
+      return state.registroUsuario
     }
   },
   modules: {
