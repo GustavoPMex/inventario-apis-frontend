@@ -68,12 +68,6 @@
 
                 <li class="nav-item">
                     <a class="nav-link js-scroll-trigger" >
-                        Servicios
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link js-scroll-trigger" >
                         Perfil actual
                     </a>
                 </li>
@@ -90,8 +84,6 @@ export default {
         const store = useStore()
 
         const autorizacion = computed(() =>{
-            // const layout = store.getters.getLayout
-            // return layout === 'principal-layout' ? true : false
             return store.getters.getAuth
         })
         return {

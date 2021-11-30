@@ -6,9 +6,9 @@
                     <h5 class="modal-title" id="editarArticuloLabel">Actualizar</h5>
                 </div>
             <div class="modal-body">
-                <form >
-                    
-                    <InputsTaller />
+                <form @submit.prevent="actualizar">
+
+                    <InputsTaller :servicio="servicio"/>
 
                     <button 
                         type="submit" 
@@ -23,6 +23,7 @@
                     type="button" 
                     class="btn btn-secondary mx-auto" 
                     data-dismiss="modal"
+                    @click="limpiarInputs"
                 >
                     Cerrar
                 </button>
@@ -33,11 +34,40 @@
 </template>
 
 <script>
+import { computed } from '@vue/reactivity'
+import { useStore } from 'vuex'
 import InputsTaller from '../../components/taller/InputsTaller.vue'
 
 export default {
     components: {
         InputsTaller
+    },
+    setup() {
+        const store = useStore()
+
+        const servicio = computed(() =>{
+            return store.getters.getServicio
+        })
+
+        const limpiarInputs = () =>{
+            store.dispatch('eliminarServicioTemporal')
+        }
+
+        const actualizar = () =>{
+            store.dispatch('actualizarServicioTaller')
+            $('#editarPendiente').modal('toggle')
+            limpiarInputs()
+        }
+
+        return {
+            servicio,
+            limpiarInputs, actualizar
+        }
+    },
+    watch: {
+        $route(to, from){
+            this.limpiarInputs()
+        }
     }
 }
 </script>

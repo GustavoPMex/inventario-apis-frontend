@@ -14,11 +14,27 @@
 </template>
 
 <script>
+import { onBeforeMount, onMounted } from '@vue/runtime-core'
+import { useStore } from 'vuex'
 import SubMenuProveedor from '../../components/taller/SubMenuProveedor.vue'
 
 export default { 
     components:{
         SubMenuProveedor
+    },
+    setup() {
+        const store = useStore()
+
+        const cargarPendientes = () => {
+            store.dispatch('establecerTallerServicios')
+        }
+
+        onBeforeMount(() =>{
+            cargarPendientes()
+        })
+    }, 
+    created(){
+        window.scrollTo(0, 0);
     }
 }
 </script>

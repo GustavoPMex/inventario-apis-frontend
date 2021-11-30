@@ -114,8 +114,8 @@ export default {
 
     // Se cargan las redes sociales que tengamos almacenada
     // de manera inicial 
-    onMounted(async() => {
-      await cargarRedes()
+    onMounted(() => {
+      cargarRedes()
     })
     
 

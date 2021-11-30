@@ -162,8 +162,8 @@ export default {
 
 
         onMounted(async() => {
-            await cargarProveedores()
-            await cargarCategorias()
+            cargarProveedores()
+            cargarCategorias()
         })
 
 

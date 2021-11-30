@@ -21,6 +21,9 @@ import SubMenuClientes from '../../components/clientes/SubMenuClientes.vue'
 export default {
     components: {
         SubMenuClientes
+    }, 
+    created(){
+        window.scrollTo(0, 0);
     }
 }
 </script>

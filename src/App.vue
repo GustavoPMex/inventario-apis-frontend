@@ -24,7 +24,7 @@ export default {
             store.dispatch('establecerPersonal')
         }
 
-        onMounted(async() =>{
+        onMounted(() =>{
               cargarPersonal()
         })
 

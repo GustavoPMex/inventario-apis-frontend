@@ -130,9 +130,9 @@ export default {
             store.dispatch('busquedaCliente', busqueda)
         }
 
-        onMounted(async() =>{
-            await cargarClientes()
-            await buscarCliente()
+        onMounted(() =>{
+            cargarClientes()
+            buscarCliente()
         })
 
 

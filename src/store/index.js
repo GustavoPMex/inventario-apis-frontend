@@ -56,6 +56,17 @@ export default createStore({
       correo: '',
       notaAdicional: '',
     },
+    // <<< ------------------------------ Taller ------------------------------ >>>
+    tallerServicios: [],
+    tallerServiciosFiltrados: [],
+    servicioTaller: {
+      id: '',
+      cliente: {},
+      tecnico: {},
+      servicio: '',
+      descripcion: '',
+      estado: ''
+    },
     // <<< ------------------------------ Clientes ------------------------------ >>>
     clientes: [],
     clientesFiltrados: [],
@@ -195,7 +206,39 @@ export default createStore({
     BUSQUEDA_PROVEEDOR(state, payload){
       state.proveedoresFiltrados = payload
     },
-     // <<< ------------------------------ Clientes ------------------------------ >>>
+    // <<< ------------------------------ Taller ------------------------------ >>>
+    ESTABLECER_TALLER_PENDIENTES(state, payload){
+      state.tallerServicios = payload
+    },
+    ESTABLECER_SERVICIO_TEMPORAL(state, payload){
+      state.servicioTaller = payload
+    },
+    NUEVO_SERVICIO_TALLER(state, payload){
+      state.tallerServicios.push(payload)
+      
+    },
+    ACTUALIZAR_SERVICIO_TALLER(state, payload){
+      state.tallerServicios = state.tallerServicios.map(item => item.id === payload.id ? payload : item)
+      state.tallerServiciosFiltrados = state.tallerServiciosFiltrados.map(item => item.id === payload.id ? payload : item)
+    },
+    ELIMINAR_SERVICIO_TEMPORAL(state){
+      state.servicioTaller = {
+        id: '',
+        cliente: {},
+        tecnico: {},
+        servicio: '',
+        descripcion: '',
+        estado: ''
+      }
+    },
+    ELIMINAR_SERVICIO_TALLER(state, payload){
+      state.tallerServicios = state.tallerServicios.filter(item => item.id != payload)
+      state.tallerServiciosFiltrados = state.tallerServiciosFiltrados.filter(item => item.id != payload)
+    },
+    BUSQUEDA_SERVICIO_TALLER(state, payload){
+      state.tallerServiciosFiltrados = payload
+    },
+    // <<< ------------------------------ Clientes ------------------------------ >>>
     ESTABLECER_CLIENTES(state, payload){
       state.clientes = payload
     },
@@ -207,6 +250,7 @@ export default createStore({
     },
     ACTUALIZAR_CLIENTE(state, payload){
       state.clientes = state.clientes.map(item => item.id === payload.id ? payload : item)
+      state.clientesFiltrados = state.clientesFiltrados.map(item => item.id === payload.id ? payload : item)
     },
     ELIMINAR_CLIENTE_TEMPORAL(state){
       state.cliente = {
@@ -219,6 +263,7 @@ export default createStore({
     },
     ELIMINAR_CLIENTE(state, payload){
       state.clientes = state.clientes.filter(item => item.id != payload)
+      state.clientesFiltrados = state.clientesFiltrados.filter(item => item.id != payload)
     },
     BUSQUEDA_CLIENTE(state, payload){
       state.clientesFiltrados = payload
@@ -424,6 +469,54 @@ export default createStore({
         commit('BUSQUEDA_PROVEEDOR', state.proveedores)
       }
     },
+    // <<< ------------------------------ Taller ------------------------------ >>>
+    establecerTallerServicios({commit}){
+      if(localStorage.getItem('tallerServicios')){
+        const pendientes = JSON.parse(localStorage.getItem('tallerServicios'))
+        commit('ESTABLECER_TALLER_PENDIENTES', pendientes)
+      } else {
+        localStorage.setItem('tallerServicios', JSON.stringify([]))
+      }
+    },
+    establecerServicioTemporal({commit}, servicio){
+      commit('ESTABLECER_SERVICIO_TEMPORAL', servicio)
+    },
+    nuevoServicioTaller({commit, state}){
+      const nuevoServicio = JSON.parse(JSON.stringify(state.servicioTaller))
+      nuevoServicio.id =  Math.floor((Math.random() * 1000) + 1)
+      commit('NUEVO_SERVICIO_TALLER', nuevoServicio)
+      localStorage.setItem('tallerServicios', JSON.stringify(state.tallerServicios))
+    },
+    actualizarServicioTaller({commit, state}){
+      const servicioActual = JSON.parse(JSON.stringify(state.servicioTaller))
+      commit('ACTUALIZAR_SERVICIO_TALLER', servicioActual)
+      localStorage.setItem('tallerServicios', JSON.stringify(state.tallerServicios))
+    },
+    eliminarServicioTemporal({commit}){
+      commit('ELIMINAR_SERVICIO_TEMPORAL')
+    },
+    eliminarServicio({commit, state}, id){
+      commit('ELIMINAR_SERVICIO_TALLER', id)
+      localStorage.setItem('tallerServicios', JSON.stringify(state.tallerServicios))
+    },
+    busquedaServicioTaller({commit, state}, filtrosTecnicos){
+      if (filtrosTecnicos.length){
+        const serviciosFiltrados = []
+        const tecnicosId = Object.values(filtrosTecnicos)
+
+        for (const servicio in state.tallerServicios){
+          console.log(state.tallerServicios[servicio].tecnico.id)
+          if (tecnicosId.includes(state.tallerServicios[servicio].tecnico.id)) {
+            serviciosFiltrados.push(state.tallerServicios[servicio])
+          }
+        }
+        console.log(tecnicosId)
+        console.log(serviciosFiltrados)
+        commit('BUSQUEDA_SERVICIO_TALLER', serviciosFiltrados)
+      } else {
+        commit('BUSQUEDA_SERVICIO_TALLER', state.tallerServicios)
+      }
+    },
     // <<< ------------------------------ Clientes ------------------------------ >>>
     establecerClientes({commit}){
       if (localStorage.getItem('clientes')) {
@@ -435,7 +528,7 @@ export default createStore({
     },
     busquedaCliente({commit, state}, busqueda){
       if(busqueda){
-        const listaClientes = state.clientes.filter(item =>
+        const listaClientes = state.clientes.filter(item => 
           item.nombre.toLowerCase().startsWith(busqueda.toLowerCase())
         )
         commit('BUSQUEDA_CLIENTE', listaClientes)
@@ -538,6 +631,16 @@ export default createStore({
     },
     getProveedoresFiltrados(state){
       return state.proveedoresFiltrados
+    },
+    // <<< ------------------------------ Taller ------------------------------ >>>
+    getTallerServicios(state){
+      return state.tallerServicios
+    },
+    getTallerServiciosFiltrados(state){
+      return state.tallerServiciosFiltrados
+    },
+    getServicio(state){
+      return state.servicioTaller
     },
     // <<< ------------------------------ Clientes ------------------------------ >>>
     getClientes(state){

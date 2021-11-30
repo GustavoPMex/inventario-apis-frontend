@@ -206,9 +206,9 @@ export default {
         }
 
         // Cargamos el inventario que tenemos almacenado
-        onMounted(async() => {
-            await cargarInventario()
-            await configurarArticulos({categorias: [], proveedores: []})
+        onMounted(() => {
+            cargarInventario()
+            configurarArticulos({categorias: [], proveedores: []})
         })
 
         return {

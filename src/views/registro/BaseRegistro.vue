@@ -13,12 +13,13 @@ export default {
             store.dispatch('setLayout', 'login-layout')
         }
 
+        onMounted(() =>{
+            establecerLayout()
+        })
+
         return {
             establecerLayout
         }
-    },
-    mounted(){
-        this.establecerLayout()
     }
 }
 </script>

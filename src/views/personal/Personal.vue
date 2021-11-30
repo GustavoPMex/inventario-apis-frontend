@@ -110,9 +110,9 @@ export default {
             store.dispatch('busquedaPersonal', busqueda)
         }
 
-        onMounted(async() =>{
-            await cargarPersonal()
-            await busquedaPersona()
+        onMounted(() =>{
+            cargarPersonal()
+            busquedaPersona()
         })
 
         return {

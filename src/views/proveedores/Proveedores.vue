@@ -150,9 +150,9 @@ export default {
             store.dispatch('busquedaProveedor', busqueda)
         }
 
-        onMounted(async() => {
-            await cargarProveedores()
-            await buscarProveedor()
+        onMounted(() => {
+            cargarProveedores()
+            buscarProveedor()
         })
 
         return {

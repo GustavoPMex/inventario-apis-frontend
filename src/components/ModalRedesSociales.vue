@@ -83,6 +83,10 @@ export default {
         // Los errores que usaremos en el formulario
         let errores = ref([])
 
+        const redesAlmacenadas = computed(() =>{
+            return store.getters.getRedesSociales
+        })
+
         // Obtenemos las redes sociales que tenemos actualmente almacenadas
         const redes = computed(() => {
             return store.getters.getRedesTemporales
@@ -91,22 +95,13 @@ export default {
         // El boton estará desactivado en caso de que el valor en el formulario
         // sea igual a lo que tenemos almacenado actualmente
         const btnDisabled = computed(() => {
-            const redesActuales = JSON.parse(localStorage.getItem('redes'))
-            try {
-                if( redesActuales.facebook === redes.value.facebook &&
+            const redesActuales = redesAlmacenadas.value
+            if( redesActuales.facebook === redes.value.facebook &&
                     redesActuales.twitter === redes.value.twitter &&
                     redesActuales.instagram === redes.value.instagram ){
                         return true
                 }
                 return false
-            } catch (error) {
-                swal({
-                    icon: 'error',
-                    title: 'Oops..',
-                    text: 'Ha ocurrido un error inesperado, recargue la página'
-                })
-            }
-            
         })
 
         // Limpiar los errores para que no se almacenen
