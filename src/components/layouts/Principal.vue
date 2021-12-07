@@ -8,6 +8,9 @@ import { useStore } from 'vuex';
 import Menu from '../Menu.vue'
 
 export default {
+    components: {
+        Menu
+    },
     setup(){
         const store = useStore()
         
@@ -18,9 +21,6 @@ export default {
         return {
             establecerLayout,
         }
-    },
-    components: {
-        Menu
     },
     beforeCreate(){
         document.body.classList.remove('registrobody');

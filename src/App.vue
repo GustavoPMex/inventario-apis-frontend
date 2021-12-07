@@ -20,11 +20,16 @@ export default {
             return store.getters.getLayout
         })
 
+        const cargarSesion = () =>{
+          store.dispatch('establecerInicio')
+        }
+
         const cargarPersonal = () =>{
             store.dispatch('establecerPersonal')
         }
 
         onMounted(() =>{
+              cargarSesion()
               cargarPersonal()
         })
 

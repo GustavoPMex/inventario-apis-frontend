@@ -1,11 +1,14 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 
+import store from '../store'
+
 const routes = [
   {
     path: '/',
     name: 'Home',
-    component: Home
+    component: Home,
+    meta: { requiresAuth: true}
   },
   // -- Inventario --
   {
@@ -22,7 +25,8 @@ const routes = [
         name: 'InventarioAgregar',
         component: () => import('../views/inventario/Agregar.vue')
       }
-    ]
+    ],
+    meta: { requiresAuth: true}
   },
   // -- Proveedores --
   {
@@ -39,9 +43,10 @@ const routes = [
         name: 'ProveedoresAgregar',
         component: () => import('../views/proveedores/Agregar.vue'),
       }
-    ]
-
+    ],
+    meta: { requiresAuth: true}
   },
+  // -- Personal --
   {
     path: '/personal',
     component: () => import('../views/personal/BasePersonal.vue'),
@@ -51,24 +56,10 @@ const routes = [
         name: 'PersonalList',
         component: () => import('../views/personal/Personal.vue')
       },
-    ]
+    ],
+    meta: { requiresAuth: true}
   },
-  {
-    path: '/registro',
-    component: () => import('../views/registro/BaseRegistro.vue'),
-    children: [
-      {
-        path: '',
-        name: 'Login',
-        component: () => import('../views/registro/Login.vue')
-      },
-      {
-        path: 'signup',
-        name: 'Signup',
-        component: () => import('../views/registro/Signup.vue')
-      }
-    ]
-  },
+  // -- Taller --
   {
     path: '/taller',
     component: () => import('../views/taller/BaseTaller.vue'),
@@ -88,8 +79,10 @@ const routes = [
         name: 'TallerAgregar',
         component: () => import('../views/taller/Agregar.vue')
       }
-    ]
+    ],
+    meta: { requiresAuth: true}
   },
+  // -- Clientes --
   {
     path: '/clientes',
     component: () => import('../views/clientes/BaseClientes.vue'),
@@ -104,8 +97,43 @@ const routes = [
         name: 'ClientesAgregar',
         component: () => import('../views/clientes/Agregar.vue')
       }
+    ],
+    meta: { requiresAuth: true}
+  },
+  // -- Registro --
+  {
+    path: '/registro',
+    component: () => import('../views/registro/BaseRegistro.vue'),
+    children: [
+      {
+        path: '',
+        name: 'Login',
+        component: () => import('../views/registro/Login.vue')
+      },
+      {
+        path: 'signup',
+        name: 'Signup',
+        component: () => import('../views/registro/Signup.vue')
+      }
     ]
-  }
+  },
+  {
+    path: '/perfil',
+    component: () => import('../views/perfil/BasePerfil.vue'),
+    children: [
+      {
+        path: '',
+        name: 'Perfil',
+        component: () => import('../views/perfil/Perfil.vue')
+      },
+      {
+        path: 'actualizar',
+        name: 'ActualizarPerfil',
+        component: () => import('../views/perfil/EditarPerfil.vue')
+      }
+    ],
+    meta: { requiresAuth: true}
+  },
 ]
 
 const router = createRouter({
@@ -113,5 +141,18 @@ const router = createRouter({
   routes,
   linkActiveClass: 'active'
 })
+
+router.beforeEach((to, from, next) => {
+  if (to.meta.requiresAuth){
+    if (Object.entries(store.getters.getAuth).length){
+      next()
+    } else {
+      next('/registro')
+    }
+  } else {
+    next()
+  }
+})
+
 
 export default router

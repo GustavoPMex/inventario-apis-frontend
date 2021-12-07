@@ -43,8 +43,8 @@
             >
                 <td>{{persona.usuario}}</td>
                 <td>{{persona.email}}</td>
-                <td>Calle x</td>
-                <td>999 999 999</td>
+                <td>{{persona.direccion}}</td>
+                <td>{{persona.telefono}}</td>
                 <td>
                     <a
                         role="button"
@@ -101,7 +101,7 @@ export default {
             })
             .then((willDelete) => {
                 if (willDelete){
-                    store.dispatch('eliminarTemporal', persona.id)
+                    store.dispatch('eliminarUsuario', persona.id)
                 }
             })
         }

@@ -93,7 +93,7 @@ export default {
 
     // Comprobamos que el usuario esté autorizado
     const authorization = computed(() =>{
-      return store.getters.getAuth
+      return Object.entries(store.getters.getAuth).length
     })
 
     // Las redes sociales que tenemos actualmente almacenadas
@@ -108,23 +108,29 @@ export default {
       store.dispatch('establecerRedesTemporales')
     }
 
+    const establecerLayout = () => {
+          store.dispatch('setLayout', 'principal-layout')
+      }
+
     const cargarRedes = () =>{
       store.dispatch('establecerRedes')
     }
-
+    
     // Se cargan las redes sociales que tengamos almacenada
     // de manera inicial 
     onMounted(() => {
       cargarRedes()
     })
-    
 
-    return {authorization, redes, redesActuales}
+    return {
+      authorization, redes, 
+      redesActuales, establecerLayout}
 
   },
   created(){
+    this.establecerLayout()
     window.scrollTo(0, 0);
-  }
+  },
   
 }
 </script>

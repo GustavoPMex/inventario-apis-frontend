@@ -3,6 +3,11 @@
         <h1 class="h1-registration mb-4">Registro</h1>
         <form @submit.prevent="nuevoUsuario">
             <div class="form-group">
+                <label class="label-registration" for="">Foto</label>
+                <input type="file" name="avatar" class="form-control" id="id_avatar">
+            </div>
+
+            <div class="form-group">
                 <label class="label-registration" for="">Usuario</label>
                 <input 
                     class="form-control" 
@@ -19,6 +24,27 @@
                     type="email"
                     placeholder="Ingrese correo"
                     v-model="camposUsuario.email"
+                >
+            </div>
+
+            <div class="form-group">
+                <label class="label-registration" for="">Dirección</label>
+                <textarea 
+                    class='form-control' 
+                    rows="5"
+                    placeholder = 'Ingrese dirección' 
+                    v-model="camposUsuario.direccion"
+                >
+                </textarea>
+            </div>
+
+            <div class="form-group">
+                <label class="label-registration" for="">Teléfono</label>
+                <input 
+                    class="form-control"
+                    type="tel"
+                    placeholder="Ingrese teléfono"
+                    v-model="camposUsuario.telefono"
                 >
             </div>
 
@@ -82,6 +108,7 @@ export default {
         const btnDisabled = computed(() =>{
             const usuario = camposUsuario.value
             if (usuario.usuario && usuario.email &&
+                usuario.direccion && usuario.telefono.length > 9 &&
                 usuario.contrasenaUno > 5 &&
                 usuario.contrasenaDos === usuario.contrasenaUno) {
                 return false

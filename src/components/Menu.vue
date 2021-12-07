@@ -1,5 +1,4 @@
 <template>
-
     <nav 
         v-if="autorizacion"
         class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top" 
@@ -67,9 +66,12 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link js-scroll-trigger" >
+                    <router-link 
+                        class="nav-link js-scroll-trigger" 
+                        :to="{name: 'Perfil'}"
+                    >
                         Perfil actual
-                    </a>
+                    </router-link>
                 </li>
             </ul>
         </div>
@@ -84,7 +86,7 @@ export default {
         const store = useStore()
 
         const autorizacion = computed(() =>{
-            return store.getters.getAuth
+            return Object.entries(store.getters.getAuth).length
         })
         return {
             autorizacion

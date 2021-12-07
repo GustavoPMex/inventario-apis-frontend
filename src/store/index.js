@@ -1,4 +1,5 @@
-import { createStore, storeKey } from 'vuex'
+import { createStore } from 'vuex'
+import router from '../router'
 
 export default createStore({
   state: {
@@ -17,8 +18,6 @@ export default createStore({
       twitter: '', 
       instagram: ''
     },
-    // Autorización del usuario(Token)
-    userAuth: true,
     // <<< ------------------------------ Inventario ------------------------------ >>>
     articulos: [],
     // Lista que almacena los articulos filtrados por categorias, ésta lista nos provee los elementos en las vistas
@@ -81,13 +80,27 @@ export default createStore({
     personal: [],
     // Usamos éste objeto para poder guardar los datos del usuario de manera temporal
     personalFiltrados: [],
+    // <<< ------------------------------ Registro ------------------------------ >>>
     registroUsuario: {
       id: 0,
+      foto: '',
       usuario: '',
       email: '',
+      direccion: '',
+      telefono: 0,
       contrasenaUno: '',
       contrasenaDos: '',
     },
+    // Autorización del usuario(Token)
+    userAuth: {},
+    perfilActualTemporal: {
+      id: 0,
+      usuario: '',
+      foto: '',
+      email: '',
+      direccion: '',
+      telefono: 0,
+    }
   },
   mutations: {
     // <<< ------------------------------ Layout ------------------------------ >>>
@@ -273,25 +286,60 @@ export default createStore({
     ESTABLECER_PERSONAL(state, payload){
       state.personal = payload
     },
-    NUEVO_USUARIO(state, payload){
-      state.personal.push(payload)
-    },
     ELIMINAR_USUARIO_TEMPORAL(state){
       state.registroUsuario = {
         id: 0,
+        foto: '',
         usuario: '',
         email: '',
+        direccion: '',
+        telefono: '',
         contrasenaUno: '',
         contrasenaDos: '',
       }
     },
-    ELIMINAR_USUARIO(state, payload){
-      state.personal = state.personal.filter(item => item.id != payload)
-    },
     BUSQUEDA_PERSONAL(state, payload){
       state.personalFiltrados = payload
+    },
+    // <<< ------------------------------ Registro ------------------------------ >>>
+    INGRESO_USUARIO(state, payload){
+      state.userAuth = payload
+    },
+    CERRAR_SESION(state){
+      state.userAuth = {}
+    },
+    NUEVO_USUARIO(state, payload){
+      state.personal.push(payload)
+    },
+    ELIMINAR_USUARIO(state, payload){
+      state.personal = state.personal.filter(item => item.id != payload)
+      state.personalFiltrados = state.personalFiltrados.filter(item => item.id != payload)
+    },
+    ESTABLECER_PERFIL_ACTUAL(state, payload){
+      state.perfilActualTemporal = payload
+    },
+    ACTUALIZAR_PERFIL(state, payload){
+      state.personal = state.personal.map(item => {
+        if (item.id === payload.id) {
+          item.foto= payload.foto,
+          item.email= payload.email,
+          item.direccion= payload.direccion,
+          item.telefono= payload.telefono
+          return item
+        } else {
+          return item
+        }
+      })
+    },
+    ELIMINAR_PERFIL_ACTUAL_TEMPORAL(state){
+      state.perfilActualTemporal = {
+        id: 0,
+        foto: '',
+        email: '',
+        direccion: '',
+        telefono: 0,
+      }
     }
-
   },
   actions: {
     setLayout({commit}, newLayout){
@@ -566,17 +614,8 @@ export default createStore({
         localStorage.setItem('personal', JSON.stringify([]))
       }
     },
-    nuevoUsuario({commit, state}){
-      state.registroUsuario.id = Math.floor((Math.random() * 1000) + 1)
-      commit('NUEVO_USUARIO', state.registroUsuario)
-      localStorage.setItem('personal', JSON.stringify(state.personal))
-    },
     eliminarUsuarioTemporal({commit}){
       commit('ELIMINAR_USUARIO_TEMPORAL')
-    },
-    eliminarTemporal({commit, state}, id){
-      commit('ELIMINAR_USUARIO', id)
-      localStorage.setItem('personal', JSON.stringify(state.personal))
     },
     busquedaPersonal({commit, state}, busqueda){
       if(busqueda){
@@ -588,6 +627,58 @@ export default createStore({
       } else {
         commit('BUSQUEDA_PERSONAL', state.personal)
       }
+    },
+    // <<< ------------------------------ Registro ------------------------------ >>>
+    establecerInicio({commit}){
+      if(localStorage.getItem('sesionUsuario')){
+        const usuarioActual = JSON.parse(localStorage.getItem('sesionUsuario'))
+        commit('INGRESO_USUARIO', usuarioActual)
+      } else {
+        localStorage.setItem('sesionUsuario', JSON.stringify({}))
+      }
+    },
+    ingresoUsuario({commit,state}, usuario){
+      const usuarioActual = JSON.parse(JSON.stringify(usuario))
+      commit('INGRESO_USUARIO', usuarioActual)
+      localStorage.setItem('sesionUsuario', JSON.stringify(state.userAuth))
+      router.push('/')
+
+    },
+    cerrarSession({commit}){
+      commit('CERRAR_SESION')
+      localStorage.setItem('sesionUsuario', JSON.stringify({}))
+      router.push('/registro')
+    },
+    nuevoUsuario({commit, state}){
+      state.registroUsuario.id = Math.floor((Math.random() * 1000) + 1)
+      commit('NUEVO_USUARIO', state.registroUsuario)
+      localStorage.setItem('personal', JSON.stringify(state.personal))
+    },
+    eliminarUsuario({commit, state}, id){
+      commit('ELIMINAR_USUARIO', id)
+      localStorage.setItem('personal', JSON.stringify(state.personal))
+    },
+    // Editar perfil actual
+    establecerPerfilActual({commit}){
+      const perfilActual = JSON.parse(localStorage.getItem('sesionUsuario'))
+      commit('ESTABLECER_PERFIL_ACTUAL', {
+        id: perfilActual.id,
+        usuario: perfilActual.usuario,
+        foto: perfilActual.foto,
+        email: perfilActual.email,
+        direccion: perfilActual.direccion,
+        telefono: perfilActual.telefono,
+      })
+    },
+    actualizarPerfil({commit, state}){
+      const perfilActual = JSON.parse(JSON.stringify(state.perfilActualTemporal))
+      commit('ACTUALIZAR_PERFIL', perfilActual)
+      commit('INGRESO_USUARIO', perfilActual)
+      localStorage.setItem('sesionUsuario', JSON.stringify(state.userAuth))
+      localStorage.setItem('personal', JSON.stringify(state.personal))
+    },
+    eliminarPerfilActualTemporal({commit}){
+      commit('ELIMINAR_PERFIL_ACTUAL_TEMPORAL')
     }
   },
   getters:{
@@ -661,6 +752,12 @@ export default createStore({
     },
     getUsuario(state){
       return state.registroUsuario
+    },
+    getSesionActual(state){
+      return state.userAuth
+    },
+    getPerfilActual(state){
+      return state.perfilActualTemporal
     }
   },
   modules: {

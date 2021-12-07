@@ -10,7 +10,6 @@
                     placeholder="Ingrese usuario"
                     v-model="usuario"
                 >
-
             </div>            
 
             <div class="form-group">
@@ -39,6 +38,7 @@
                 </a>
             </p>
         </div>
+        
         <div>
             <p class="p-registration">
                 ¿No tienes cuenta? 
@@ -57,11 +57,10 @@
 import { computed, ref } from '@vue/reactivity'
 import { useStore } from 'vuex'
 import swal from 'sweetalert'
-import { useRouter } from 'vue-router'
+
 export default {
     setup(){
         const store = useStore()
-        const router = useRouter()
 
         const usuario = ref('')
         const contrasena = ref('')
@@ -81,13 +80,10 @@ export default {
         const sesion = () =>{
             const listaUsuarios =  usuarios.value
             for(const indexUsuario in listaUsuarios){
-
                 const usuarioActual = listaUsuarios[indexUsuario]
-
                 if (usuarioActual.usuario === usuario.value &&
                     usuarioActual.contrasenaUno === contrasena.value) {
-                    swal('Bienvenido')
-                    router.push('/')
+                    store.dispatch('ingresoUsuario', usuarioActual)
                     return
                 }
             }
@@ -97,7 +93,6 @@ export default {
             })
 
         }
-
         return {
             usuario, contrasena,
             btnDisabled,
