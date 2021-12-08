@@ -63,6 +63,7 @@ export default createStore({
       cliente: {},
       tecnico: {},
       servicio: '',
+      tipo: '',
       descripcion: '',
       estado: ''
     },
@@ -240,6 +241,7 @@ export default createStore({
         cliente: {},
         tecnico: {},
         servicio: '',
+        tipo: '',
         descripcion: '',
         estado: ''
       }
@@ -393,7 +395,7 @@ export default createStore({
 
           if (filtrosCategoria.includes(categoriaArticulo) & 
               filtrosProveedores.includes(proveedorArticulo)){
-            articulosFiltrados.push(articulo)
+              articulosFiltrados.push(articulo)
           } else if (filtrosCategoria.includes(categoriaArticulo) & !filtrosProveedores.length){
             articulosFiltrados.push(articulo)
           } else if (filtrosProveedores.includes(proveedorArticulo) & !filtrosCategoria.length){
@@ -547,19 +549,26 @@ export default createStore({
       commit('ELIMINAR_SERVICIO_TALLER', id)
       localStorage.setItem('tallerServicios', JSON.stringify(state.tallerServicios))
     },
-    busquedaServicioTaller({commit, state}, filtrosTecnicos){
-      if (filtrosTecnicos.length){
+    busquedaServicioTaller({commit, state}, filtros){
+      if (filtros.tecnicos.length | filtros.tipos.length){
         const serviciosFiltrados = []
-        const tecnicosId = Object.values(filtrosTecnicos)
+        const filtrosTecnicos = Object.values(filtros.tecnicos)
+        const filtrosTipos = Object.values(filtros.tipos)
 
         for (const servicio in state.tallerServicios){
-          console.log(state.tallerServicios[servicio].tecnico.id)
-          if (tecnicosId.includes(state.tallerServicios[servicio].tecnico.id)) {
-            serviciosFiltrados.push(state.tallerServicios[servicio])
+          const servicioTaller = state.tallerServicios[servicio]
+          const servicioTallerTecnico = servicioTaller.tecnico.id
+          const servicioTallerTipo = servicioTaller.tipo
+
+          if (filtrosTecnicos.includes(servicioTallerTecnico) &
+              filtrosTipos.includes(servicioTallerTipo)) {
+              serviciosFiltrados.push(servicioTaller)
+          } else if (filtrosTecnicos.includes(servicioTallerTecnico) & !filtrosTipos.length){
+            serviciosFiltrados.push(servicioTaller)
+          } else if (filtrosTipos.includes(servicioTallerTipo) & !filtrosTecnicos.length){
+            serviciosFiltrados.push(servicioTaller)
           }
         }
-        console.log(tecnicosId)
-        console.log(serviciosFiltrados)
         commit('BUSQUEDA_SERVICIO_TALLER', serviciosFiltrados)
       } else {
         commit('BUSQUEDA_SERVICIO_TALLER', state.tallerServicios)
@@ -639,7 +648,14 @@ export default createStore({
     },
     ingresoUsuario({commit,state}, usuario){
       const usuarioActual = JSON.parse(JSON.stringify(usuario))
-      commit('INGRESO_USUARIO', usuarioActual)
+      commit('INGRESO_USUARIO', {
+        id: usuarioActual.id,
+        usuario: usuarioActual.usuario,
+        foto: usuarioActual.foto,
+        email: usuarioActual.email,
+        direccion: usuarioActual.direccion,
+        telefono: usuarioActual.telefono
+      })
       localStorage.setItem('sesionUsuario', JSON.stringify(state.userAuth))
       router.push('/')
 

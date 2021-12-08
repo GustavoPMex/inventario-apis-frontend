@@ -6,17 +6,15 @@
             Bienvenido
             <span class="text-primary">User</span>
         </h1>
-
         <div class="subheading w-100 mb-5">
             <p class="p-subheading">Mantente al día</p>
         </div>
-        
         <div class="row w-100 mb-5 mx-auto">
-            <HomeCard :card="{name: 'Equipos', count: 0}"/>
+            <HomeCard :card="{name: 'Equipos', count: totalEquipos}"/>
 
-            <HomeCard :card="{name: 'Servicios', count: 2}" />
+            <HomeCard :card="{name: 'Servicios', count: totalServicios}" />
 
-            <HomeCard :card="{name: 'Garantias', count: 1}" />
+            <HomeCard :card="{name: 'Garantias', count: totalGarantias}" />
         </div>
 
         <!-- Redes sociales -->
@@ -102,6 +100,26 @@ export default {
       return store.getters.getRedesSociales
     })
 
+    // Total servicios
+    const servicios = computed(() =>{
+      return store.getters.getTallerServicios
+    })
+    // Total equipos
+    const totalEquipos = computed(() => {
+      const serviciosPendientes = servicios.value.filter(item => item.tipo === 'equipo')
+      return serviciosPendientes.length
+    })
+    // Total servicios
+    const totalServicios = computed(() => {
+      const serviciosPendientes = servicios.value.filter(item => item.tipo === 'servicio')
+      return serviciosPendientes.length
+    })
+    // Total garantias
+    const totalGarantias = computed(() => {
+      const serviciosPendientes = servicios.value.filter(item => item.tipo === 'garantias')
+      return serviciosPendientes.length
+    })
+
     // Establecemos las redes sociales que tenemos guardadas actualmente
     // para que podamos ver los datos el form de redes sociales
     const redesActuales = ()  => {
@@ -112,6 +130,10 @@ export default {
           store.dispatch('setLayout', 'principal-layout')
       }
 
+    const cargarPendientes = () => {
+      store.dispatch('establecerTallerServicios')
+    }
+
     const cargarRedes = () =>{
       store.dispatch('establecerRedes')
     }
@@ -119,11 +141,13 @@ export default {
     // Se cargan las redes sociales que tengamos almacenada
     // de manera inicial 
     onMounted(() => {
+      cargarPendientes()
       cargarRedes()
     })
 
     return {
       authorization, redes, 
+      totalEquipos, totalServicios, totalGarantias,
       redesActuales, establecerLayout}
 
   },

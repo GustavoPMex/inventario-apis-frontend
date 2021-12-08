@@ -51,6 +51,19 @@
     </div>
 
     <div class="form-group">
+        <label class="label-form">Tipo de servicio</label>
+        <select
+            class="form-select"
+            v-model="servicio.tipo"
+        >
+            <option :value="''" disabled selected>Seleccione un tipo</option>
+            <option value="equipo"> Equipo </option>
+            <option value="servicio"> Servicio </option>
+            <option value="garantias"> Garantias </option>
+        </select>
+    </div>
+
+    <div class="form-group">
         <label class="label-form">Descripción</label>
         <textarea 
             class='form-control' 

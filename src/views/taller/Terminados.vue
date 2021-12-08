@@ -8,7 +8,6 @@
             <th scope="col">Técnico</th>
             <th scope="col">Servicio</th>
             <th scope="col">Descripcion</th>
-            <th scope="col">Estado</th>
             <th scope="col">Accion</th>
             </tr>
         </thead>
@@ -22,7 +21,6 @@
                 <td class="table-wordbreak cuadro-tab-size"> {{servicio.tecnico.usuario}} </td>
                 <td class="table-wordbreak"> {{servicio.servicio}} </td> 
                 <td class="table-wordbreak"> {{servicio.descripcion}} </td>
-                <td class="table-wordbreak cuadro-tab-size"> Terminado </td>
                 <td>
                     <a 
                         role="button"
