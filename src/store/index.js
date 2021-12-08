@@ -74,7 +74,7 @@ export default createStore({
       id: 0,
       nombre: '',
       descripcion: '',
-      telefono: 0,
+      telefono: '',
       correo: ''
     },
     // <<< ------------------------------ Personal ------------------------------ >>>

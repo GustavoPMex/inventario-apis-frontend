@@ -4,7 +4,7 @@
             <h1 class="mb-5 h1-resume-section">
                 Taller
             </h1>
-            <SubMenuProveedor />
+            <subMenu :listaElementos="listaElementosMenu"/>
             <!-- Routes -->
             <router-view></router-view>
         </div>
@@ -14,16 +14,25 @@
 </template>
 
 <script>
-import { onBeforeMount, onMounted } from '@vue/runtime-core'
+import { computed, onBeforeMount } from '@vue/runtime-core'
 import { useStore } from 'vuex'
-import SubMenuProveedor from '../../components/taller/SubMenuProveedor.vue'
+import subMenu from '../../components/SubMenu.vue'
 
 export default { 
     components:{
-        SubMenuProveedor
+        subMenu
     },
     setup() {
         const store = useStore()
+
+        const listaElementosMenu = computed(() =>{
+            return [
+                {name: 'Pendientes', linkName: 'TallerPendientes'},
+                {name: 'Terminados', linkName: 'TallerTerminados'},
+                {name: 'Agregar', linkName: 'TallerAgregar'}
+
+            ]
+        })
 
         const cargarPendientes = () => {
             store.dispatch('establecerTallerServicios')
@@ -32,6 +41,10 @@ export default {
         onBeforeMount(() =>{
             cargarPendientes()
         })
+
+        return {
+            listaElementosMenu
+        }
     }, 
     created(){
         window.scrollTo(0, 0);

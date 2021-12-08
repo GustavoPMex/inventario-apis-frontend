@@ -6,7 +6,7 @@
                 Inventario
             </h1>
 
-            <SubMenuInventario />
+            <SubMenu :listaElementos="listaElementosMenu"/>
 
             <!-- Routes -->
             <router-view></router-view>
@@ -17,11 +17,24 @@
 </template>
 
 <script>
-import SubMenuInventario from '../../components/inventario/SubMenuInventario.vue'
+import { computed } from '@vue/reactivity'
+import SubMenu from '../../components/SubMenu.vue'
 
 export default {
     components: {
-        SubMenuInventario
+        SubMenu
+    },
+    setup(){
+
+        const listaElementosMenu = computed(() =>{
+            return [
+                {name: 'Articulos', linkName: 'InventarioArticulos'},
+                {name: 'Agregar', linkName: 'InventarioAgregar'},
+            ]
+        })
+        return {
+            listaElementosMenu
+        }
     },
     created(){
         window.scrollTo(0, 0);

@@ -6,7 +6,7 @@
                 Proveedores
             </h1>
 
-            <SubMenuProveedores />
+            <SubMenu :listaElementos="listaElementosMenu"/>
             <!-- Routes -->
             <router-view></router-view>
             
@@ -16,11 +16,25 @@
 </template>
 
 <script>
-import SubMenuProveedores from '../../components/proveedores/SubMenuProveedores.vue'
+import { computed } from '@vue/reactivity'
+import SubMenu from '../../components/SubMenu.vue'
 export default {
     
     components: {
-        SubMenuProveedores,
+        SubMenu,
+    },
+    setup(){
+
+        const listaElementosMenu = computed(() =>{
+            return [
+                {name: 'Proveedores', linkName: 'ProveedoresList'},
+                {name: 'Agregar', linkName: 'ProveedoresAgregar'},
+            ]
+        })
+
+        return {
+            listaElementosMenu
+        }
     },
     created(){
         window.scrollTo(0, 0);

@@ -6,7 +6,7 @@
                 Clientes
             </h1>
 
-            <SubMenuClientes />
+            <SubMenu :listaElementos="listaElementosMenu"/>
             <!-- Routes -->
             <router-view></router-view>
             
@@ -16,12 +16,26 @@
 </template>
 
 <script>
-import SubMenuClientes from '../../components/clientes/SubMenuClientes.vue'
+import { computed } from '@vue/reactivity'
+import SubMenu from '../../components/SubMenu.vue'
 
 export default {
     components: {
-        SubMenuClientes
+        SubMenu
     }, 
+    setup() {
+
+        const listaElementosMenu = computed(() =>{
+            return [
+                {name: 'Clientes', linkName: 'ClientesList'},
+                {name: 'Agregar', linkName: 'ClientesAgregar'},
+            ]
+        })
+
+        return {
+            listaElementosMenu
+        }
+    },
     created(){
         window.scrollTo(0, 0);
     }
