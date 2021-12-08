@@ -17,10 +17,10 @@
                 v-for="(servicio, index) in terminados"
                 :key="index"
             >
-                <td class="table-wordbreak cuadro-tab-size"> {{servicio.cliente.nombre}} </td>
-                <td class="table-wordbreak cuadro-tab-size"> {{servicio.tecnico.usuario}} </td>
-                <td class="table-wordbreak"> {{servicio.servicio}} </td> 
-                <td class="table-wordbreak"> {{servicio.descripcion}} </td>
+                <td class="cuadro-tab-size"> {{servicio.cliente.nombre}} </td>
+                <td class="cuadro-tab-size"> {{servicio.tecnico.usuario}} </td>
+                <td class="cuadro-tab-size"> {{servicio.servicio}} </td> 
+                <td class="table-wordbreak cuadro-ta-tab-size"> {{servicio.descripcion}} </td>
                 <td>
                     <a 
                         role="button"

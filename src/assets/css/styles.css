@@ -2012,11 +2012,11 @@ pre code {
 
 .form-control {
   display: block;
-  width: 80%;
+  width: 70%;
   height: calc(1.5em + 0.75rem + 2px);
   padding: 0.375rem 0.75rem;
   margin: 0 auto;
-  font-size: 1rem;
+  font-size: 1.1rem !important;
   font-weight: 400;
   line-height: 1.5;
   color: #495057;
@@ -2029,10 +2029,10 @@ pre code {
 
 .form-select {
   display: block;
-  width: 80%;
-  padding: 0.375rem 0.75rem;
+  width: 70%;
+  padding: 0.2rem;
   margin: 0 auto;
-  font-size: 1.3rem;
+  font-size: 1.1rem;
   font-weight: 400;
   line-height: 1.5;
   color: #495057;
@@ -2173,7 +2173,7 @@ textarea.form-control {
 }
 
 .form-group {
-  margin-bottom: 1rem;
+  margin-bottom: .5rem;
 }
 
 .form-text {
@@ -10200,8 +10200,8 @@ section.resume-section .resume-section-content {
   }
 
   section.resume-section {
-    padding-left: 8rem;
-    padding-right: 8rem;
+    padding-left: 6rem;
+    padding-right: 6rem;
     padding-top: 6rem;
     padding-bottom: 5rem;
   }
@@ -10230,15 +10230,6 @@ section.resume-section .resume-section-content {
 
 .free-div{
   background-color: #259c3f ;
-}
-
-.a-content-div:hover{
-  text-decoration: none;
-  background-color: #bd5d38;
-}
-
-.div-content-a{
-  
 }
 
 .icon-content-a{
@@ -10339,16 +10330,13 @@ a.active.router-link-exact-active.list-submenu{
 }
 
 .perfil-photo{
-  width: 300px;
-  height: 300px;
+  width: 200px;
+  height: 200px;
   border-radius: 50%;
-  border: 3px solid;
+  border: 5px solid;
   background-size: cover;
 }
 
-.perfil-text{
-
-}
 
 .perfil-title{
   margin-top: 2em;
@@ -10356,12 +10344,12 @@ a.active.router-link-exact-active.list-submenu{
   font-weight: bold;
   color: black;
   background-color: #fff;
-  border-radius: .5em;
+  border-radius: .4em;
   
 }
 
 .perfil-p{
-  font-size: 1.5em;
+  font-size: 1.7em;
 }
 
 .content-btn{
@@ -10369,9 +10357,9 @@ a.active.router-link-exact-active.list-submenu{
 }
 
 .perfil-btn{
-  width: 10em;
-  font-size: 1.4em;
-  margin-bottom: 1em;
+  width: 8em;
+  font-size: 1.2em;
+  margin: 1em .5em;
 }
 
 .h1-registration{
@@ -10506,7 +10494,7 @@ a.active.router-link-exact-active.list-submenu{
 
 .modal{
   color: white;
-  font-size: 1.2em;
+  font-size: 1em;
 }
 
 .modal-title{
@@ -10630,8 +10618,8 @@ input[type="checkbox"]{
 }
 
 .imgDetailArticulo{
-  width: 250px;
-  border: 5px solid #bd5d38;
+  width: 200px;
+  border: 6px solid #bd5d38;
 }
 
 .nameArticuloDetail{
@@ -10648,12 +10636,16 @@ input[type="checkbox"]{
 }
 
 table{
-  font-size: 1.2em;
+  font-size: 1em;
 }
 
 .table-cat{
   overflow: auto !important;
   height: 30vh !important;
+}
+
+.vacio{
+  color: #D03737;
 }
 
 .elementstyle{
@@ -10676,6 +10668,10 @@ select option{
 
 .cuadro-tab-size{
   width: 7em !important;
+}
+
+.cuadro-ta-tab-size{
+  width: 25em !important;
 }
 
 body.registrobody {

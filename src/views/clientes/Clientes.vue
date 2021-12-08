@@ -41,9 +41,26 @@
         >
             <tr>
                 <td class="table-wordbreak cuadro-tab-size"> {{cliente.nombre}} </td>
-                <td class="table-wordbreak cuadro-tab-size"> {{cliente.descripcion}} </td>
-                <td class="table-wordbreak"> {{cliente.telefono}} </td> 
-                <td class="table-wordbreak"> {{cliente.correo}} </td>
+                <td class="table-wordbreak cuadro-ta-tab-size"> {{cliente.descripcion}} </td>
+                <td class="cuadro-tab-size">
+                    <a
+                        class="nameArticuloDetail"
+                        :href="`tel:${cliente.telefono}`"
+                        role="button"
+                    >
+                        {{cliente.telefono}}
+                    </a>
+                </td> 
+                <td v-if="cliente.correo" class="table-wordbreak cuadro-tab-size">
+                    <a
+                        class="nameArticuloDetail"
+                        :href="`mailto:${cliente.correo}`"
+                        role="button"
+                    >
+                        {{cliente.correo}}
+                    </a>
+                </td>
+                <td v-else class="table-wordbreak cuadro-tab-size vacio"> Vacío </td>
                 <td>
                     <a  
                         data-toggle="modal" 

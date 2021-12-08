@@ -3,14 +3,21 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="articuloDetallesLabel">Detalles</h5>
+                    <h5 class="modal-title mx-auto" id="articuloDetallesLabel">Detalles</h5>
                 </div>
             <div class="modal-body detailOverflow">
                 <div class="mb-4">
-                    <img :src="`${articulo.imagen}`" 
+                    <img
+                        v-if="articulo.imagen"
+                        :src="`${articulo.imagen}`" 
                         class="imgDetailArticulo" 
                         alt="..."
                     >
+                    <img 
+                        v-else 
+                        src="/assets/default_photo.jpg" 
+                        class="imgDetailArticulo" 
+                        alt="Default">
                 </div>
 
                 <div class="mb-4">

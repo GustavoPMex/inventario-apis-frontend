@@ -105,6 +105,9 @@ export default {
         $route (to, from){
             this.limpiarInputs()
         }
+    },
+    created(){
+        window.scrollTo(0, 0);
     }
 }
 </script>

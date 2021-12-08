@@ -3,7 +3,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="editarArticuloLabel">Actualizar</h5>
+                    <h5 class="modal-title mx-auto" id="editarArticuloLabel">Actualizar</h5>
                 </div>
             <div class="modal-body">
                 <form @submit.prevent='editarArticulo'>

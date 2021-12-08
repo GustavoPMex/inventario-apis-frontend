@@ -44,7 +44,7 @@
     <label class="label-form">Nota adicional</label>
     <textarea 
         class='form-control' 
-        rows="3"
+        rows="5"
         placeholder = 'Ingresa nota adicional' 
         v-model="proveedor.notaAdicional"
     ></textarea>

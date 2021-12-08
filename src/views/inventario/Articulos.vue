@@ -89,8 +89,8 @@
                 </a>
                 <ModalArticulo/>
             </td>
-            <td>{{articulo.categoria.nombre}}</td>
-            <td class="table-wordbreak">{{articulo.proveedor.nombre}}</td> 
+            <td class="cuadro-tab-size">{{articulo.categoria.nombre}}</td>
+            <td class="cuadro-tab-size">{{articulo.proveedor.nombre}}</td> 
             <td class="cuadro-tab-size">$ {{ formatoPrecio(articulo.precio) }}</td>
             <td>{{articulo.cantidad}}</td>
             <td>

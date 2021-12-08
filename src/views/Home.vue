@@ -22,6 +22,7 @@
             <p class="p-subheading">Manten actualizadas tus redes</p>
         </div>
 
+        <!-- Comprobar redes sociales -->
         <div v-if="(redes.facebook || 
                     redes.twitter || 
                     redes.instagram
@@ -106,17 +107,23 @@ export default {
     })
     // Total equipos
     const totalEquipos = computed(() => {
-      const serviciosPendientes = servicios.value.filter(item => item.tipo === 'equipo')
+      const serviciosPendientes = servicios.value.filter(item => 
+          item.tipo === 'equipo' && item.estado === 'pendiente'
+      )
       return serviciosPendientes.length
     })
     // Total servicios
     const totalServicios = computed(() => {
-      const serviciosPendientes = servicios.value.filter(item => item.tipo === 'servicio')
+      const serviciosPendientes = servicios.value.filter(item => 
+          item.tipo === 'servicio' && item.estado === 'pendiente'
+      )
       return serviciosPendientes.length
     })
     // Total garantias
     const totalGarantias = computed(() => {
-      const serviciosPendientes = servicios.value.filter(item => item.tipo === 'garantias')
+      const serviciosPendientes = servicios.value.filter(
+          item => item.tipo === 'garantias' && item.estado === 'pendiente'
+      )
       return serviciosPendientes.length
     })
 

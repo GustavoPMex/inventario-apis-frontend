@@ -6,7 +6,7 @@
                 <input 
                     type="search" 
                     class="form-control" 
-                    placeholder="Ingresa cliente" 
+                    placeholder="Ingresa técnico" 
                     name="search"
                     v-model.trim="busqueda"
                 >
@@ -41,9 +41,17 @@
         >
             <tr
             >
-                <td>{{persona.usuario}}</td>
-                <td>{{persona.email}}</td>
-                <td>{{persona.direccion}}</td>
+                <td class="cuadro-tab-size" >{{persona.usuario}}</td>
+                <td class="cuadro-tab-size">
+                    <a
+                        class="nameArticuloDetail"
+                        :href="`mailto:${persona.email}`"
+                        role="button"
+                    >
+                        {{persona.email}}
+                    </a>
+                </td>
+                <td class="cuadro-ta-tab-size">{{persona.direccion}}</td>
                 <td>{{persona.telefono}}</td>
                 <td>
                     <a

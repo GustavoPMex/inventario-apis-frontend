@@ -3,7 +3,11 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="editarArticuloLabel">Actualizar</h5>
+                    <h5 
+                        class="modal-title mx-auto" 
+                        id="editarArticuloLabel"
+                    > Actualizar
+                    </h5>
                 </div>
             <div class="modal-body">
                 <form @submit.prevent='actualizarProveedor'>
@@ -12,6 +16,7 @@
                     <button 
                         type="submit" 
                         class="btn btn-success btn-form"
+                        :disabled='btnIsDisabled'
                     >
                         Actualizar
                     </button>
@@ -48,6 +53,15 @@ export default {
             return store.getters.getProveedor
         })
 
+        const btnIsDisabled = computed(() =>{
+            const proveedorNuevo = proveedor.value
+            if (proveedorNuevo.nombre && proveedorNuevo.direccion &&
+                proveedorNuevo.telefono.length > 9){
+                    return false
+            }
+            return true
+        })
+
         const limpiarInputs = () =>{
             store.dispatch('eliminarProveedorTemporal')
         }
@@ -61,7 +75,7 @@ export default {
         }
 
         return {
-            proveedor,
+            proveedor, btnIsDisabled,
             actualizarProveedor, limpiarInputs,
         }
     },

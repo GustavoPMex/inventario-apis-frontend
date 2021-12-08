@@ -43,7 +43,7 @@ export default {
         const disabledBtn = computed(() =>{
             const nuevoCliente = cliente.value
             if (nuevoCliente.nombre && nuevoCliente.descripcion &&
-                nuevoCliente.telefono && nuevoCliente.correo) {
+                nuevoCliente.telefono.length > 9) {
                 return false
             } else {
                 return true

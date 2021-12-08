@@ -89,7 +89,7 @@
     <label class="label-form">Descripción</label>
     <textarea 
         class='form-control' 
-        rows="3"
+        rows="5"
         placeholder = 'Ingresa Descripcion' 
         v-model="articulo.descripcion"
     >

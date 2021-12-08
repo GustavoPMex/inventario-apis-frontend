@@ -107,11 +107,11 @@
                 v-for="(servicio, index) in pendientes"
                 :key="index"
             >
-                <td class="table-wordbreak"> {{servicio.cliente.nombre}} </td> 
-                <td class="table-wordbreak"> {{servicio.tecnico.usuario}} </td>
-                <td class="table-wordbreak cuadro-tab-size"> {{servicio.servicio}} </td>
-                <td class="table-wordbreak cuadro-tab-size"> {{servicio.tipo}} </td>
-                <td class="table-wordbreak cuadro-tab-size"> {{servicio.descripcion}} </td>
+                <td class="cuadro-tab-size"> {{servicio.cliente.nombre}} </td> 
+                <td class="cuadro-tab-size"> {{servicio.tecnico.usuario}} </td>
+                <td class="cuadro-tab-size"> {{servicio.servicio}} </td>
+                <td class="cuadro-tab-size"> {{servicio.tipo}} </td>
+                <td class="table-wordbreak cuadro-ta-tab-size"> {{servicio.descripcion}} </td>
                 <td>
                     <a  
                         data-toggle="modal" 

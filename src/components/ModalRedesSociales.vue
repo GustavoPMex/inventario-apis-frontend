@@ -6,6 +6,7 @@
                     <h5 class="modal-title" id="modalRedesLabel">Redes sociales</h5>
                 </div>
             <div class="modal-body">
+                <p>Ej: https://www.facebook.com/... </p>
                 <form @submit.prevent='actualizarRedes'>
                     <div class="form-group">
                         <input 
@@ -73,7 +74,6 @@
 <script>
 import { computed, ref } from '@vue/reactivity'
 import { useStore } from 'vuex'
-import swal from 'sweetalert'
 
 export default {
     setup(){

@@ -43,8 +43,8 @@
         >
             <tr>
             <td class="table-wordbreak cuadro-tab-size"> {{proveedor.nombre}} </td>
-            <td class="table-wordbreak"> {{proveedor.direccion}} </td>
-            <td class="table-wordbreak">
+            <td class="table-wordbreak cuadro-ta-tab-size"> {{proveedor.direccion}} </td>
+            <td class="cuadro-tab-size">
                 <a
                     class="nameArticuloDetail"
                     :href="`tel:${proveedor.telefono}`"
@@ -53,7 +53,8 @@
                     {{proveedor.telefono}}
                 </a>
             </td> 
-            <td class="table-wordbreak">
+
+            <td v-if="proveedor.correo" class="table-wordbreak cuadro-tab-size">
                 <a
                     class="nameArticuloDetail"
                     :href="`mailto:${proveedor.correo}`"
@@ -62,8 +63,12 @@
                     {{proveedor.correo}}
                 </a>
             </td>
-            <td v-if="proveedor.notaAdicional">{{proveedor.notaAdicional}}</td>
-            <td v-else>Sin notas</td>
+            <td v-else class="vacio"> Vacío </td>
+
+            <td v-if="proveedor.notaAdicional" class="table-wordbreak cuadro-ta-tab-size">
+                {{proveedor.notaAdicional}}
+            </td>
+            <td class="vacio" v-else>Vacío</td>
             <td>
                 <a  
                     data-toggle="modal" 
