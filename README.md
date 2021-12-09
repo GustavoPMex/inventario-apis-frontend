@@ -11,7 +11,7 @@
 
 ## About the project
 ```
-This project is a practice about a small inventory management. Its database is provided by Firebase.
+This project is a practice about a small inventory management. It use APIS provided by Django project.
 ```
 
 ### Project setup
