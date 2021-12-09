@@ -1,6 +1,20 @@
-# inventario_frontend
+<!-- PROJECT LOGO -->
+<p align="center">
+  <a href="https://github.com/GustavoPMex/social_network.git">
+    <img src="https://i.imgur.com/b67v87R.png" alt="Logo" width="200" height="200">
+  </a>
 
-## Project setup
+  <h1 align="center">ToDo Example</h1>
+
+</p>
+
+
+## About the project
+```
+This project is a practice about a small inventory management. It use APIS provided by Django Project
+```
+
+### Project setup
 ```
 npm install
 ```
@@ -15,5 +29,9 @@ npm run serve
 npm run build
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+<br>
+
+## Contact
+Twitter - [@gustavopmex](https://twitter.com/gustavopmex)
+
+LinkedIn - [Gustavo Alonso Pacheco Mex](https://www.linkedin.com/in/gustavopmex/)
