@@ -11,7 +11,7 @@
 
 ## About the project
 ```
-This project is a practice about a small inventory management. It use APIS provided by Django Project
+This project is a practice about a small inventory management. Its database is provided by Firebase.
 ```
 
 ### Project setup
@@ -27,6 +27,11 @@ npm run serve
 ### Compiles and minifies for production
 ```
 npm run build
+```
+### Template
+```
+The template used in this project is a modification of 
+https://startbootstrap.com/theme/resume
 ```
 
 <br>
