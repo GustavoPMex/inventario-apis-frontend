@@ -12,6 +12,7 @@
 ## About the project
 ```
 This project is a practice about a small inventory management. It use APIS provided by Django project.
+-THIS PROJECT IS NOT FINISHED-
 ```
 
 ### Project setup
